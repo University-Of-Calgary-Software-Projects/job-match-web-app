@@ -1,9 +1,10 @@
 import './App.css';
-import EmployerDashboardNavbar from './Employer/Navbar';
+import EmployerNavbar from './Employer/Navbar';
+import EmployeeNavbar from './Employee/Navbar';
 
 function App() {
   return (
-    <EmployerDashboardNavbar />
+    <EmployeeNavbar />
   );
 }
 

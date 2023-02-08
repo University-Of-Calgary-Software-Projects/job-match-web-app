@@ -3,10 +3,10 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CreateIcon from '@mui/icons-material/Create';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import SearchIcon from '@mui/icons-material/Search';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 
 const EmployerRoutes = [
@@ -37,11 +37,11 @@ const EmployerRoutes = [
   },
 ]
 
-const FreelanceRoutes = [
+const EmployeeRoutes = [
   {
-    title: "Dashboard",
+    title: "Job Search",
     link: "/",
-    icon: <DashboardIcon />
+    icon: <SearchIcon />
   },
   {
     title: "My Applications",
@@ -54,9 +54,9 @@ const FreelanceRoutes = [
     icon: <AccountTreeIcon />
   },
   {
-    title: "Explore Jobs",
+    title: "My Jobs",
     link: "/job-posts",
-    icon:<SearchIcon />
+    icon:<BookmarksIcon />
   },
   {
     title: "Offers",
@@ -70,4 +70,4 @@ const FreelanceRoutes = [
   },
 ]
 
-export {EmployerRoutes, FreelanceRoutes}
+export {EmployerRoutes, EmployeeRoutes}
