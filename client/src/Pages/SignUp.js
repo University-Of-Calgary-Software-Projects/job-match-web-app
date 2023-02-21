@@ -215,10 +215,10 @@ export default function SignUp() {
                     name="role"
                     onFocus={() => setErrorLabel(false)}
                   >
-                    <MenuItem id="employee" value={"employee"}>
-                      Employee
+                    <MenuItem id="jobSeeker" value={"jobSeeker"}>
+                      Job Seeker
                     </MenuItem>
-                    <MenuItem id="employer" value={"hiringmanager"}>
+                    <MenuItem id="hiringmanager" value={"hiringManager"}>
                       Hiring Manager
                     </MenuItem>
                   </Select>
