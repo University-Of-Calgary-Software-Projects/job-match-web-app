@@ -1,7 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 
-const { LoginService, RegisterService } = require("./services");
+const {
+	LoginService,
+	RegisterService,
+	JobPostsService,
+} = require("./services");
 
 const app = express();
 app.use(express.json());
