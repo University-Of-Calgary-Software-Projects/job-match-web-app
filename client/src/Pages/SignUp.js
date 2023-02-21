@@ -30,7 +30,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://github.com/University-Of-Calgary-Software-Projects">
-      University Of Calgary Software Projects
+        University Of Calgary Software Projects
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -54,26 +54,26 @@ export default function SignUp() {
     const formInput =
       role === "employee"
         ? {
-            firstName: data.get("firstName"),
-            lastName: data.get("lastName"),
-            email: data.get("email"),
-            username: data.get("username"),
-            password: data.get("password"),
-            role: data.get("role"),
-            phoneNumber: data.get("phoneNumber"),
-            location: data.get("location"),
-            skills: localStorage.getItem('skills'),
-          }
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName"),
+          email: data.get("email"),
+          username: data.get("username"),
+          password: data.get("password"),
+          role: data.get("role"),
+          phoneNumber: data.get("phoneNumber"),
+          location: data.get("location"),
+          skills: localStorage.getItem('skills'),
+        }
         : {
-            firstName: data.get("firstName"),
-            lastName: data.get("lastName"),
-            email: data.get("email"),
-            username: data.get("username"),
-            password: data.get("password"),
-            role: data.get("role"),
-            businessName: data.get("businessName"),
-            businessIndustry: data.get("businessIndustry"),
-          };
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName"),
+          email: data.get("email"),
+          username: data.get("username"),
+          password: data.get("password"),
+          role: data.get("role"),
+          businessName: data.get("businessName"),
+          businessIndustry: data.get("businessIndustry"),
+        };
 
     localStorage.setItem("role", formInput.role);
     const raw = JSON.stringify(formInput);
