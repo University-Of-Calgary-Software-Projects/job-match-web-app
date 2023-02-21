@@ -4,7 +4,7 @@ import EmployeeNavbar from './Employee/Navbar';
 
 function App() {
   return (
-    <EmployeeNavbar />
+    <EmployerNavbar />
   );
 }
 
