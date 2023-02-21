@@ -25,36 +25,36 @@ router.post("/", async (req, res) => {
 		//sql query
 		sql = `
       SELECT *
-      FROM employee
+      FROM job_seeker
       WHERE username=?
       AND password=?
     `;
 
 		let stmt = db.prepare(sql);
-		const employeeResult = stmt.all(username, password);
+		const jobSeekerResult = stmt.all(username, password);
 
-		if (employeeResult.length !== 0) {
-			employeeResult[0].role = "employee";
+		if (jobSeekerResult.length !== 0) {
+			jobSeekerResult[0].role = "jobSeeker";
 			return res.status(200).json({
 				message: "login successful",
-				login_details: employeeResult[0],
+				login_details: jobSeekerResult[0],
 			});
 		}
 
 		sql = `
       SELECT *
-      FROM employer
+      FROM hiring_manager
       WHERE username=?
       AND password=?
     `;
 
 		stmt = db.prepare(sql);
-		const employerResult = stmt.all(username, password);
-		if (employerResult.length !== 0) {
-			employerResult[0].role = "employer";
+		const hiringManagerResult = stmt.all(username, password);
+		if (hiringManagerResult.length !== 0) {
+			hiringManagerResult[0].role = "hiringManager";
 			return res.status(200).json({
 				message: "login successful",
-				login_details: employerResult[0],
+				login_details: hiringManagerResult[0],
 			});
 		} else {
 			return res.status(400).json({ error: "wrong credentials" });

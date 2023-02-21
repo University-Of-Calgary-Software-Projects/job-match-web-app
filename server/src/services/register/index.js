@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const Database = require("better-sqlite3");
 const db = new Database("jobmatch.db", { verbose: console.log });
-const { uuid } = require("../../utils/GenerateID");
+//const { uuid } = require("../../utils/GenerateID");
 
 /**
  * Handle login post request, validate login credentials
@@ -28,8 +28,8 @@ router.post("/", async (req, res) => {
 		//check that user and email dont exist
 		let sql = `
       SELECT *
-      FROM employee AS e, hiring_manager AS h
-      WHERE e.Username=? OR e.Email=?
+      FROM job_seeker AS j, hiring_manager AS h
+      WHERE j.Username=? OR j.Email=?
       OR h.Username=?
     `;
 		let stmt = db.prepare(sql);
@@ -42,8 +42,8 @@ router.post("/", async (req, res) => {
 		}
 		let ID;
 
-		if (role === "employee") {
-			const employeeInfo = {
+		if (role === "jobSeeker") {
+			const jobSeekerInfo = {
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
@@ -52,9 +52,9 @@ router.post("/", async (req, res) => {
 				phoneNumber: phoneNumber,
 				location: location,
 			};
-			ID = employeeSignUp(employeeInfo);
+			ID = jobSeekerSignUp(employeeInfo);
 		} else {
-			const businessInfo = {
+			const hiringManagerInfo = {
 				firstName: firstName,
 				lastName: lastName,
 				username: username,
@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
 				businessName: businessName,
 				businessIndustry: businessIndustry,
 			};
-			ID = businessSignUp(businessInfo);
+			ID = hiringManagerSignUp(hiringManagerInfo);
 		}
 		return res
 			.status(200)
@@ -74,11 +74,11 @@ router.post("/", async (req, res) => {
 });
 
 /**
- * Insert employee into database
- * @param {object} employeeInfo
- * @returns employee ID
+ * Insert jobSeeker into database
+ * @param {object} jobSeekerInfo
+ * @returns jobSeeker ID
  */
-function employeeSignUp(employeeInfo) {
+function jobSeekerSignUp(jobSeekerInfo) {
 	try {
 		const {
 			firstName,
@@ -88,17 +88,17 @@ function employeeSignUp(employeeInfo) {
 			password,
 			phoneNumber,
 			location,
-		} = employeeInfo;
+		} = jobSeekerInfo;
 
-		const employeeID = uuid();
+		const jobSeekerID = uuid();
 
 		let sql = `
-	  INSERT INTO employee
+	  INSERT INTO job_seeker
 	  VALUES (?,?,?,?,?,?,?,?)
 	  `;
 		let stmt = db.prepare(sql);
 		stmt.run(
-			employeeID,
+			jobSeekerID,
 			username,
 			email,
 			phoneNumber,
@@ -107,7 +107,7 @@ function employeeSignUp(employeeInfo) {
 			firstName,
 			lastName
 		);
-		return employeeID;
+		return jobSeekerID;
 	} catch (error) {
 		console.log(error);
 		throw new Error(error);
@@ -116,10 +116,10 @@ function employeeSignUp(employeeInfo) {
 
 /**
  * Insert hiring manager and business into database
- * @param {object} employeeInfo
+ * @param {object} hiringManagerInfo
  * @returns hiring manager ID
  */
-function businessSignUp(businessInfo) {
+function hiringManagerSignUp(hiringManagerInfo) {
 	try {
 		const {
 			firstName,
@@ -128,20 +128,12 @@ function businessSignUp(businessInfo) {
 			password,
 			businessName,
 			businessIndustry,
-		} = businessInfo;
-		const businessID = uuid();
-
-		let sql = `
-	  INSERT INTO business
-		VALUES (?,?,?)
-	  `;
-		let stmt = db.prepare(sql);
-		stmt.run(businessID, businessName, businessIndustry);
+		} = hiringManagerInfo;
 
 		const hiringManagerID = uuid();
 		sql = `
 	  INSERT INTO hiring_manager 
-	  VALUES (?,?,?,?,?,?)
+	  VALUES (?,?,?,?,?,?,?)
 	  `;
 		stmt = db.prepare(sql);
 		stmt.run(
@@ -150,7 +142,8 @@ function businessSignUp(businessInfo) {
 			password,
 			firstName,
 			lastName,
-			businessID
+			businessName,
+			businessIndustry
 		);
 		return hiringManagerID;
 	} catch (error) {
