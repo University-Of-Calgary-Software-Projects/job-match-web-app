@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const Database = require("better-sqlite3");
 const db = new Database("jobmatch.db", { verbose: console.log });
-//const { uuid } = require("../../utils/GenerateID");
+const { uuid } = require("../../utils/GenerateID");
 
 /**
  * Handle login post request, validate login credentials
@@ -11,6 +11,7 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  * @returns {object} - returns user if user exists, else returns a 400 response status
  */
 router.post("/", async (req, res) => {
+	console.log("register endpoint");
 	try {
 		const {
 			firstName,
@@ -23,6 +24,8 @@ router.post("/", async (req, res) => {
 			location,
 			businessName,
 			businessIndustry,
+			businessDept,
+			skills,
 		} = req.body;
 
 		//check that user and email dont exist
@@ -42,7 +45,13 @@ router.post("/", async (req, res) => {
 		}
 		let ID;
 
+		// let str = "apple,banana,orange";
+		// let arr = str.split(","); // split the string using a comma separator
+		// console.log(arr); // output: ["apple", "banana", "orange"]
+
 		if (role === "jobSeeker") {
+			let skillsArray = skills.split(",");
+
 			const jobSeekerInfo = {
 				firstName: firstName,
 				lastName: lastName,
@@ -51,8 +60,9 @@ router.post("/", async (req, res) => {
 				password: password,
 				phoneNumber: phoneNumber,
 				location: location,
+				skills: skillsArray,
 			};
-			ID = jobSeekerSignUp(employeeInfo);
+			ID = jobSeekerSignUp(jobSeekerInfo);
 		} else {
 			const hiringManagerInfo = {
 				firstName: firstName,
@@ -61,6 +71,7 @@ router.post("/", async (req, res) => {
 				password: password,
 				businessName: businessName,
 				businessIndustry: businessIndustry,
+				businessDept: businessDept,
 			};
 			ID = hiringManagerSignUp(hiringManagerInfo);
 		}
@@ -88,6 +99,7 @@ function jobSeekerSignUp(jobSeekerInfo) {
 			password,
 			phoneNumber,
 			location,
+			skills,
 		} = jobSeekerInfo;
 
 		const jobSeekerID = uuid();
@@ -107,6 +119,46 @@ function jobSeekerSignUp(jobSeekerInfo) {
 			firstName,
 			lastName
 		);
+
+		skills.map((skill) => {
+			skill = skill.charAt(0).toUpperCase() + skill.slice(1);
+			try {
+				sql = `
+			  SELECT *
+			  FROM skills
+			  WHERE skillName=?
+			  `;
+				stmt = db.prepare(sql);
+				const result = stmt.all(skill);
+				if (result.length === 0) {
+					const skillID = uuid();
+					sql = `
+				  INSERT INTO skills
+				  VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					const result = stmt.run(skillID, skill);
+					console.log(result);
+					sql = `
+				INSERT INTO has_skill
+				VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					stmt.run(skillID, jobSeekerID);
+				} else {
+					const skillID = result[0].ID;
+					sql = `
+				INSERT INTO has_skill
+				VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					stmt.run(skillID, jobSeekerID);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
 		return jobSeekerID;
 	} catch (error) {
 		console.log(error);
@@ -128,12 +180,13 @@ function hiringManagerSignUp(hiringManagerInfo) {
 			password,
 			businessName,
 			businessIndustry,
+			businessDept,
 		} = hiringManagerInfo;
 
 		const hiringManagerID = uuid();
 		sql = `
 	  INSERT INTO hiring_manager 
-	  VALUES (?,?,?,?,?,?,?)
+	  VALUES (?,?,?,?,?,?,?,?)
 	  `;
 		stmt = db.prepare(sql);
 		stmt.run(
@@ -143,7 +196,8 @@ function hiringManagerSignUp(hiringManagerInfo) {
 			firstName,
 			lastName,
 			businessName,
-			businessIndustry
+			businessIndustry,
+			businessDept
 		);
 		return hiringManagerID;
 	} catch (error) {
