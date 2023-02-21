@@ -29,14 +29,15 @@ router.post("/", async (req, res) => {
 		} = req.body;
 
 		//check that user and email dont exist
+		// ADD LATER: OR h.Email=? OR h.PhoneNo=?
 		let sql = `
       SELECT *
       FROM job_seeker AS j, hiring_manager AS h
-      WHERE j.Username=? OR j.Email=?
-      OR h.Username=?
+      WHERE j.Username=? OR j.Email=? OR j.PhoneNo=?
+      OR h.Username=? 
     `;
 		let stmt = db.prepare(sql);
-		let queryResult = stmt.all(username, email, username);
+		let queryResult = stmt.all(username, email, phoneNumber, username);
 
 		if (queryResult.length !== 0) {
 			return res
@@ -44,10 +45,6 @@ router.post("/", async (req, res) => {
 				.json({ error: "username and/or password already exist" });
 		}
 		let ID;
-
-		// let str = "apple,banana,orange";
-		// let arr = str.split(","); // split the string using a comma separator
-		// console.log(arr); // output: ["apple", "banana", "orange"]
 
 		if (role === "jobSeeker") {
 			let skillsArray = skills.split(",");
