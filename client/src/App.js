@@ -1,11 +1,46 @@
+import React from "react";
 import './App.css';
-import EmployerNavbar from './Employer/Navbar';
-import EmployeeNavbar from './Employee/Navbar';
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import NavBar from "./Pages/Navbar";
+import { Paper } from "@mui/material";
+import SignIn from "./Pages/SignIn";
+import SignUp from "./Pages/SignUp";
+import ErrorPage from "./Pages/ErrorPage";
+import JobSearch from "./Pages/JobSearch";
+// import BasicModal from "./Pages/Modal";
+
 
 function App() {
   return (
-    <EmployerNavbar />
-  );
+    <Router>
+      <Paper sx={{ boxShadow: "none", border: "none", borderRadius: 0 }}>
+        <Switch>
+          <Route path="/login" component={SignIn} />
+          <Route path="/register" component={SignUp} />
+          <Paper sx={{ boxShadow: "none", border: "none", borderRadius: 0 }}>
+            <NavBar>
+              {/* <BasicModal /> */}
+              <Switch>
+                <Route exact path="/" component={JobSearch} />
+                {/* <Route exact path="/job-posts" component={JobPosts} />
+                <Route exact path="/job-posts/:jobId" component={JobPost} />
+                <Route exact path="/new-job-post" component={CreateJobPost} />
+                <Route exact path="/offers" component={Offers} />
+                <Route exact path="/apply" component={Apply} />
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/projects" component={Projects} />
+                <Route exact path="/company-profile" component={CompanyProfile} />
+                <Route exact path="/applications" component={Applications} />
+                <Route exact path="/projects/:id/contributors" component={Contributors} /> */}
+                <Route exact path='*' component ={ErrorPage} />
+              </Switch>
+            </NavBar>
+          </Paper>
+        </Switch>
+      </Paper>
+    </Router>
+  )
+
 }
 
 export default App;

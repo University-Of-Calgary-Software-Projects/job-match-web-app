@@ -44,19 +44,14 @@ const EmployeeRoutes = [
     icon: <SearchIcon />
   },
   {
-    title: "My Applications",
-    link: "/applications",
-    icon: <DescriptionIcon />
-  },
-  {
-    title: "My Projects",
-    link: "/projects",
-    icon: <AccountTreeIcon />
-  },
-  {
     title: "My Jobs",
     link: "/job-posts",
     icon:<BookmarksIcon />
+  },
+  {
+    title: "My Applications",
+    link: "/applications",
+    icon: <DescriptionIcon />
   },
   {
     title: "Offers",
