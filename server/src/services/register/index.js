@@ -89,7 +89,7 @@ router.post("/", async (req, res) => {
  * @param {object} jobSeekerInfo
  * @returns jobSeeker ID
  */
-function jobSeekerSignUp(jobSeekerInfo) {
+async function jobSeekerSignUp(jobSeekerInfo) {
 	try {
 		const {
 			firstName,
@@ -171,7 +171,7 @@ function jobSeekerSignUp(jobSeekerInfo) {
  * @param {object} hiringManagerInfo
  * @returns hiring manager ID
  */
-function hiringManagerSignUp(hiringManagerInfo) {
+async function hiringManagerSignUp(hiringManagerInfo) {
 	try {
 		const {
 			firstName,
