@@ -163,7 +163,7 @@ router.post("/create", async (req, res) => {
 
 /**
  * perform sql query to get job posts appropriate to the user
- * @param {string} id - id of freelancer
+ * @param {string} id - id of jobseeker
  * @returns {object} -returns result of sql query
  */
 async function queryJobSeeker(id) {

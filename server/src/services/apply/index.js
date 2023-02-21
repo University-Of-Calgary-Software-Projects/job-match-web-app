@@ -8,7 +8,7 @@ const db = new Database("jobmatch.db", { verbose: console.log });
 /**
  * apply to a job post
  * @param JID - job id
- * @param FID - freelancer id
+ * @param JSID - jobseeker id
  * @param YOF - years of experience
  * @param resumeUrl - link to url
  * @param additionalInfo - additional info to add to the application
@@ -35,8 +35,8 @@ router.post("/", async (req, res) => {
 });
 
 /**
- * returns all applications owned by the freelancer
- * @param id - freelancer id
+ * returns all applications owned by the jobseeker
+ * @param id - jobseeker id
  */
 router.get("/:id/applications", async (req, res) => {
   try {
