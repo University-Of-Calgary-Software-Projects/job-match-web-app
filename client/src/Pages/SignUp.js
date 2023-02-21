@@ -232,7 +232,7 @@ export default function SignUp() {
                 item
                 xs={12}
                 sm={6}
-                sx={{ display: role === "hiringmanager" ? "inline" : "none" }}
+                sx={{ display: role === "hiringManager" ? "inline" : "none" }}
               >
                 <TextField
                   name="businessName"
@@ -249,7 +249,7 @@ export default function SignUp() {
                 item
                 xs={12}
                 sm={6}
-                sx={{ display: role === "hiringmanager" ? "inline" : "none" }}
+                sx={{ display: role === "hiringManager" ? "inline" : "none" }}
               >
                 <TextField
                   required
@@ -264,7 +264,7 @@ export default function SignUp() {
                 item
                 xs={12}
                 sm={6}
-                sx={{ display: role === "employee" ? "inline" : "none" }}
+                sx={{ display: role === "jobSeeker" ? "inline" : "none" }}
               >
                 <TextField
                   name="phoneNumber"
@@ -281,7 +281,7 @@ export default function SignUp() {
                 item
                 xs={12}
                 sm={6}
-                sx={{ display: role === "employee" ? "inline" : "none" }}
+                sx={{ display: role === "jobSeeker" ? "inline" : "none" }}
               >
                 <TextField
                   required
@@ -296,7 +296,7 @@ export default function SignUp() {
               <Grid
                 item
                 xs={12}
-                sx={{ display: role === "employee" ? "inline" : "none" }}
+                sx={{ display: role === "jobSeeker" ? "inline" : "none" }}
               >
                 <TagsInput tags={skills} name={"skills"} />
               </Grid>

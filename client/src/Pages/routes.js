@@ -12,7 +12,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 const EmployerRoutes = [
   {
     title: "My Job Posts",
-    link: "/job-posts",
+    link: "/",
     icon:<WorkIcon />
   },
   {

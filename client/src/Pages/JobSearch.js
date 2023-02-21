@@ -4,7 +4,7 @@ import EmployeeJobSearch from './Employee/JobSearch'
 
 function JobSearch() {
   return (
-    localStorage.getItem("role") === "freelance" ? <EmployeeJobSearch /> : <ErrorPage />
+    localStorage.getItem("role") === "jobSeeker" ? <EmployeeJobSearch /> : <ErrorPage />
   )
 }
 
