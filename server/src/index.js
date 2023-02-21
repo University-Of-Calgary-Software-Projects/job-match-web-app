@@ -15,6 +15,7 @@ app.use(cors());
 app.use("/login", LoginService);
 app.use("/register", RegisterService);
 app.use("/job-posts", JobPostsService);
+app.use("/apply", applyService);
 
 app.listen(3000, () => {
 	console.log("Server is running on port 3000");
