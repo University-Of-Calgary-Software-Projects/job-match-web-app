@@ -4,4 +4,5 @@ module.exports = {
 	...require("./job-posts"),
 	...require("./apply"),
 	...require("./offers"),
+	...require("./profile"),
 };

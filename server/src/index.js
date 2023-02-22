@@ -17,6 +17,7 @@ app.use("/register", RegisterService);
 app.use("/job-posts", JobPostsService);
 app.use("/apply", applyService);
 app.use("/offers", offersService);
+app.use("/profile", profileService);
 
 app.listen(3000, () => {
 	console.log("Server is running on port 3000");
