@@ -172,7 +172,7 @@ async function queryJobSeeker(id) {
     SELECT distinct j.ID, j.JobName, j.salary, j.Description, j.WorkingHours, 
     j.DatePosted, b.Business_Name AS BusinessName, j.Industry
     FROM has_skill AS h, job_seeker AS f, requires AS r, Skills AS s, job_post AS j, hiring_manager AS b
-    WHERE h.FID=f.ID AND r.JID = j.ID AND h.SID = r.SID AND j.HID = b.ID
+    WHERE h.JSID=f.ID AND r.JID = j.ID AND h.SID = r.SID AND j.HID = b.ID
     AND f.ID=?
   `;
 
