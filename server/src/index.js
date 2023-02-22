@@ -345,12 +345,14 @@ const sqliteScript = () => {
 		"Sales",
 	];
 
+	let j = 300;
 	try {
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < 2; i++) {
 			let sql3;
-			sql3 = `UPDATE hiring_manager SET Business_Name = '${businessName[i]}' AND Business_Industry = '${businessIndustry[i]}' AND Business_Dept = '${businessDept[i]}' WHERE ID = '${hiringManagerIds[i].ID}'`;
+			sql3 = `UPDATE hiring_manager SET Business_Name = '${businessName[i]}', Business_Industry = '${businessIndustry[i]}', Business_Dept = '${businessDept[i]}' WHERE ID = '${hiringManagerIds[j].ID}'`;
 			let stmt3 = db.prepare(sql3);
 			stmt3.run();
+			j++;
 		}
 	} catch (error) {
 		console.log(error);
