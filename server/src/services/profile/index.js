@@ -12,30 +12,31 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  * else returns a 400 response status
  */
 router.get("/:role/:id", async (req, res) => {
-  try {
-    const { role } = req.params;
-    const { id } = req.params;
-    let queryResult;
+	try {
+		const { role } = req.params;
+		const { id } = req.params;
+		let queryResult;
 
-    if (role === "jobSeeker") {
-      queryResult = queryJobSeeker(id);
-    } else if (role === "hiringManager") {
-      queryResult = queryHiringManager(id);
-    } else {
-      return res.status(404).json({ error: "incorrect role was provided" });
-    }
-    if (queryResult.length === 0) {
-      return res
-        .status(400)
-        .json({ error: "User ID provided is not available" });
-    }
-    return res.status(200).json({ results: queryResult[0] });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Server Error" });
-  }
+		if (role === "jobSeeker") {
+			queryResult = queryJobSeeker(id);
+		} else if (role === "hiringManager") {
+			queryResult = queryHiringManager(id);
+		} else {
+			return res
+				.status(404)
+				.json({ error: "incorrect role was provided" });
+		}
+		if (queryResult.length === 0) {
+			return res
+				.status(400)
+				.json({ error: "User ID provided is not available" });
+		}
+		return res.status(200).json({ results: queryResult[0] });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ error: "Server Error" });
+	}
 });
-
 
 /**
  * perform sql query to get the profile details of the job_seeker
@@ -43,18 +44,18 @@ router.get("/:role/:id", async (req, res) => {
  * @returns {object} -returns result of sql query
  */
 async function queryJobSeeker(id) {
-  let sql = null; // for sql statements
+	let sql = null; // for sql statements
 
-  //sql query
-  sql = `
+	//sql query
+	sql = `
     SELECT *
     FROM job_seeker
     WHERE ID=?
   `;
 
-  let stmt = db.prepare(sql);
-  const result = stmt.all(id);
-  return result;
+	let stmt = db.prepare(sql);
+	const result = stmt.all(id);
+	return result;
 }
 
 /**
@@ -64,10 +65,10 @@ async function queryJobSeeker(id) {
  * @returns {object} - return result of sql query
  */
 async function queryHiringManager(id) {
-  let sql; // for sql statements
+	let sql; // for sql statements
 
-  //sql query
-  sql = `
+	//sql query
+	sql = `
     SELECT 
     h.ID AS HID,  h.UserName, h.First_Name, h.LAST_NAME, 
     h.Business_Name, h.Business_Industry
@@ -75,9 +76,9 @@ async function queryHiringManager(id) {
     WHERE h.ID=?
   `;
 
-  let stmt = db.prepare(sql);
-  const result = stmt.all(id);
-  return result;
+	let stmt = db.prepare(sql);
+	const result = stmt.all(id);
+	return result;
 }
 
-module.exports = { profileService: router };
+module.exports = { ProfileService: router };
