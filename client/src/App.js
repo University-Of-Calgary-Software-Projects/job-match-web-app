@@ -7,6 +7,7 @@ import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import ErrorPage from "./Pages/ErrorPage";
 import JobSearch from "./Pages/JobSearch";
+import JobPosts from "./Pages/JobPosts";
 // import BasicModal from "./Pages/Modal";
 
 
@@ -22,9 +23,9 @@ function App() {
               {/* <BasicModal /> */}
               <Switch>
                 <Route exact path="/" component={JobSearch} />
-                {/* <Route exact path="/job-posts" component={JobPosts} />
-                <Route exact path="/job-posts/:jobId" component={JobPost} />
-                <Route exact path="/new-job-post" component={CreateJobPost} />
+                <Route exact path="/job-posts" component={JobPosts} />
+                {/* <Route exact path="/job-posts/:jobId" component={JobPost} /> */}
+                {/* <Route exact path="/new-job-post" component={CreateJobPost} />
                 <Route exact path="/offers" component={Offers} />
                 <Route exact path="/apply" component={Apply} />
                 <Route exact path="/profile" component={Profile} />
