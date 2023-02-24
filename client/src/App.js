@@ -9,6 +9,7 @@ import ErrorPage from "./Pages/ErrorPage";
 import JobSearch from "./Pages/JobSearch";
 import JobPosts from "./Pages/JobPosts";
 import Offers from "./Pages/Offers";
+import Profile from "./Pages/Profile";
 // import BasicModal from "./Pages/Modal";
 
 
@@ -26,10 +27,10 @@ function App() {
                 <Route exact path="/" component={JobSearch} />
                 <Route exact path="/job-posts" component={JobPosts} />
                 <Route exact path="/offers" component={Offers} />
+                <Route exact path="/profile" component={Profile} />
                 {/* <Route exact path="/job-posts/:jobId" component={JobPost} /> */}
                 {/* <Route exact path="/new-job-post" component={CreateJobPost} />
                 <Route exact path="/apply" component={Apply} />
-                <Route exact path="/profile" component={Profile} />
                 <Route exact path="/projects" component={Projects} />
                 <Route exact path="/company-profile" component={CompanyProfile} />
                 <Route exact path="/applications" component={Applications} />
