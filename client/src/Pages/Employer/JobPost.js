@@ -42,12 +42,12 @@ function JobPosts() {
       const userID = localStorage.getItem("userID");
 
       let requestOptions = {
-        url: `${process.env.REACT_APP_API_URL}/job-posts/business/${userID}`,
+        url: `${process.env.REACT_APP_API_URL}/job-posts/hiringManager/${userID}`,
         method: "GET",
         redirect: "follow",
       };
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/job-posts/business/${userID}`,
+        `${process.env.REACT_APP_API_URL}/job-posts/hiringManager/${userID}`,
         requestOptions
       );
       if (response.status === 200) {

@@ -12,7 +12,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 const EmployerRoutes = [
   {
     title: "My Job Posts",
-    link: "/",
+    link: "/job-posts",
     icon:<WorkIcon />
   },
   {
@@ -29,12 +29,7 @@ const EmployerRoutes = [
     title: "Profile",
     link: "/profile",
     icon: <AccountCircleIcon />
-  },
-  {
-    title: "Company",
-    link: "/company-profile",
-    icon: <BusinessCenterIcon />
-  },
+  }
 ]
 
 const EmployeeRoutes = [
