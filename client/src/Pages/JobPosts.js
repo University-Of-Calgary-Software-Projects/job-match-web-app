@@ -1,5 +1,4 @@
 import React from 'react'
-
 import EmployerJobPosts from './Employer/JobPost'
 import EmployeeJobPosts from './Employee/JobPosts'
 

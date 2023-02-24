@@ -11,6 +11,7 @@ import JobPosts from "./Pages/JobPosts";
 import Offers from "./Pages/Offers";
 import Profile from "./Pages/Profile";
 import Applications from "./Pages/Applications";
+import JobPost from "./Pages/JobPost";
 // import BasicModal from "./Pages/Modal";
 
 
@@ -27,10 +28,10 @@ function App() {
               <Switch>
                 <Route exact path="/" component={JobSearch} />
                 <Route exact path="/job-posts" component={JobPosts} />
+                <Route exact path="/job-posts/:jobId" component={JobPost} />
                 <Route exact path="/offers" component={Offers} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/applications" component={Applications} />
-                {/* <Route exact path="/job-posts/:jobId" component={JobPost} /> */}
                 {/* <Route exact path="/new-job-post" component={CreateJobPost} />
                 <Route exact path="/apply" component={Apply} />
                 <Route exact path="/projects" component={Projects} />
