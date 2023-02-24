@@ -166,7 +166,7 @@ router.post("/create", async (req, res) => {
  * @param {string} id - id of jobseeker
  * @returns {object} -returns result of sql query
  */
-async function queryJobSeeker(id) {
+function queryJobSeeker(id) {
   //sql query
   let sql = `
     SELECT distinct j.ID, j.JobName, j.salary, j.Description, j.WorkingHours, 
@@ -187,7 +187,7 @@ async function queryJobSeeker(id) {
  * @param {string} id - id of hiring manager
  * @returns {object} - return result of sql query
  */
-async function queryHiringManager(id) {
+function queryHiringManager(id) {
   let sql; // for sql statements
 
   //sql query

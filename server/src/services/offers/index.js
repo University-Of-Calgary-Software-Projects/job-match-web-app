@@ -32,7 +32,7 @@ router.get("/:role/:id", async (req, res) => {
  * get the offers owned by the jobSeeker
  * @param {string} id - jobSeeker id
  */
-async function queryJobSeeker(id) {
+function queryJobSeeker(id) {
 	//sql query
 	let sql = `
   SELECT o.Salary, o.JobSeekerStatus, o.ClientStatus,
@@ -50,7 +50,7 @@ async function queryJobSeeker(id) {
  * get the offers owned by the hiring manager
  * @param {string} id - hiring manager id
  */
-async function queryHiringManager(id) {
+function queryHiringManager(id) {
 	let sql; // for sql statements
 
 	//sql query

@@ -43,7 +43,7 @@ router.get("/:role/:id", async (req, res) => {
  * @param {string} id - id of job_seeker
  * @returns {object} -returns result of sql query
  */
-async function queryJobSeeker(id) {
+function queryJobSeeker(id) {
 	let sql = null; // for sql statements
 
 	//sql query
@@ -64,7 +64,7 @@ async function queryJobSeeker(id) {
  * @param {string} id - id of hiring manager
  * @returns {object} - return result of sql query
  */
-async function queryHiringManager(id) {
+function queryHiringManager(id) {
 	let sql; // for sql statements
 
 	//sql query
