@@ -69,7 +69,7 @@ export default function SignIn() {
       setTextFieldError(false);
       localStorage.setItem('role', result.login_details.role);
       localStorage.setItem('userID', result.login_details.ID);
-      history.push("/");
+      history.push(result.login_details.role === 'jobSeeker'? "/" : "/job-posts");
     } else {
       setTextFieldError(true);
     }
