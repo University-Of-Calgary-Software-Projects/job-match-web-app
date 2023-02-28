@@ -13,6 +13,7 @@ import Profile from "./Pages/Profile";
 import Applications from "./Pages/Applications";
 import JobPost from "./Pages/JobPost";
 // import BasicModal from "./Pages/Modal";
+import CreateJobPost from "./Pages/CreateJobPost";
 
 
 function App() {
@@ -32,7 +33,8 @@ function App() {
                 <Route exact path="/offers" component={Offers} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/applications" component={Applications} />
-                {/* <Route exact path="/new-job-post" component={CreateJobPost} />
+                <Route exact path="/new-job-post" component={CreateJobPost} />
+                {/* 
                 <Route exact path="/apply" component={Apply} />
                 <Route exact path="/projects" component={Projects} />
                 <Route exact path="/company-profile" component={CompanyProfile} />
