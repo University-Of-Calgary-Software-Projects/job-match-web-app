@@ -16,6 +16,10 @@ import { JobPostsHeaders } from "./JobPostsHeaders";
 import { useHistory } from "react-router-dom";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<TableTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const MyTable = styled(Table)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
   ...theme.typography.body2,
@@ -24,6 +28,10 @@ const MyTable = styled(Table)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<(props: TableCellProps) => JSX.Element> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#0d294a" : "white",
   ...theme.typography.body2,
@@ -32,6 +40,12 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
   fontWeight: "bold",
 }));
+
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 
 function JobPosts() {
   const [data, setData] = useState([]);

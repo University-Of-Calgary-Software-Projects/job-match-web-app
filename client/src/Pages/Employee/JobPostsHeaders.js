@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {[{accessor: string, HEADER: string},{accessor: string, HEADER: string},{accessor: string, HEADER: string},{accessor: string, HEADER: string},{accessor: string, HEADER: string},null,null]}
+ */
 export const JobPostsHeaders = [
   {
     HEADER: 'Job Name',
