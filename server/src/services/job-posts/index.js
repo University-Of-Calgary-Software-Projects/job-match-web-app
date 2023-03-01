@@ -85,7 +85,7 @@ router.post("/create", async (req, res) => {
     sql = `
       SELECT  Business_Industry AS industry
       FROM hiring_manager AS h
-      AND h.ID=?
+      WHERE h.ID=?
     `;
 
     try {
