@@ -8,7 +8,7 @@ export const OffersHeaders = [
     accessor: "clientstatus"
   },
   {
-    HEADER: 'Freelancer status',
+    HEADER: 'Jobseeker status',
     accessor: 'jobSeekerstatus'
   },
   {
