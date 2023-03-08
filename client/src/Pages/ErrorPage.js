@@ -3,6 +3,12 @@ import { Box, Stack } from "@mui/system";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ErrorPage() {
   const history = useHistory();
   

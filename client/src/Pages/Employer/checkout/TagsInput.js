@@ -1,11 +1,22 @@
 import { useState } from "react";
 import "./tags-input.scss";
 
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const TagsInput = (props) => {
 	const [tags, setTags] = useState(props.tags);
 	const removeTags = (indexToRemove) => {
 		setTags([...tags.filter((_, index) => index !== indexToRemove)]);
 	};
+
+	/**
+	 *
+	 * @param event
+	 */
 	function addTags(event) {
 		if (event.target.value !== "") {
 			setTags([...tags, event.target.value]);
@@ -13,6 +24,11 @@ const TagsInput = (props) => {
 		}
 	};
 
+	/**
+	 *
+	 * @param id
+	 * @param value
+	 */
 	const handleSubmit = (id, value) => {
     props.formData[id] = value;
   };

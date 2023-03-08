@@ -26,6 +26,11 @@ import { Paper } from "@mui/material";
 
 const drawerWidth = 240;
 
+/**
+ *
+ * @param theme
+ * @returns {{overflowX: string, width: number, transition: width}}
+ */
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -35,6 +40,11 @@ const openedMixin = (theme) => ({
   overflowX: "hidden",
 });
 
+/**
+ *
+ * @param theme
+ * @returns {{[p: string]: {width: string}, overflowX: string, width: string, transition: width}}
+ */
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -47,6 +57,10 @@ const closedMixin = (theme) => ({
   },
 });
 
+/**
+ *
+ * @type {StyledComponent<MUIStyledCommonProps<Theme>, Pick<JSX.IntrinsicElements[string], keyof JSX.IntrinsicElements[string]>, {}>}
+ */
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
@@ -66,6 +80,10 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
+/**
+ *
+ * @type {StyledComponent<MUIStyledCommonProps<Theme>, JSX.IntrinsicElements[string], {}>}
+ */
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -75,6 +93,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+/**
+ *
+ * @type {StyledComponent<Pick<PropsOf<OverridableComponent<AppBarTypeMap>>, keyof React.ComponentProps<OverridableComponent<AppBarTypeMap>>> & MUIStyledCommonProps<Theme>, {}, {}>}
+ */
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -93,6 +115,10 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+/**
+ *
+ * @type {StyledComponent<Pick<PropsOf<(props: DrawerProps) => JSX.Element>, keyof React.ComponentProps<(props: DrawerProps) => JSX.Element>> & MUIStyledCommonProps<Theme>, {}, {}>}
+ */
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -110,6 +136,12 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function Navbar(props) {
   const [toolbarHeader, setToolbarHeader] = useState("Home");
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false);
@@ -125,6 +157,10 @@ export default function Navbar(props) {
     setOpen(false);
   };
 
+  /**
+   *
+   * @type {Theme}
+   */
   const theme = useMemo(() =>
     createTheme({
       palette: {

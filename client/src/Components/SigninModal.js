@@ -7,6 +7,10 @@ import styled from "@emotion/styled";
 import { Stack } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<BoxTypeMap<{}, "div", Theme>>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const CustomBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
   position: "absolute",
@@ -17,11 +21,21 @@ const CustomBox = styled(Box)(({ theme }) => ({
   borderRadius: 10,
 }));
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function BasicModal() {
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  /**
+   *
+   * @type {History<LocationState>}
+   */
   const history = useHistory();
 
   useEffect(() => {

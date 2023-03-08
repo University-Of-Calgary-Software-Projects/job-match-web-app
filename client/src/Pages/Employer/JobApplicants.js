@@ -18,6 +18,10 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useLocation } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<TableTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const MyTable = styled(Table)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
   ...theme.typography.body2,
@@ -26,6 +30,10 @@ const MyTable = styled(Table)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<(props: TableCellProps) => JSX.Element> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#0d294a" : "white",
   ...theme.typography.body2,
@@ -35,6 +43,10 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<BoxTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const CustomBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
   position: "absolute",
@@ -48,11 +60,21 @@ const CustomBox = styled(Box)(({ theme }) => ({
   borderRadius: 7,
 }));
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function JobApplicants() {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
   useEffect(() => {
+
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     const fetchData = async () => {
       let jobID = localStorage.getItem("jobID");
       let requestOptions = {
@@ -60,6 +82,11 @@ function JobApplicants() {
         method: "GET",
         redirect: "follow",
       };
+
+      /**
+       *
+       * @type {Response}
+       */
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/job-posts/${jobID}`,
         requestOptions
@@ -72,6 +99,7 @@ function JobApplicants() {
 
     fetchData();
   }, []);
+
 
   const handleOpenModal = () => {
     setModal(true);

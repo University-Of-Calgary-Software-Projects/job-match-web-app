@@ -8,7 +8,10 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
-
+/**
+ *
+ * @type {[{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string}]}
+ */
 const EmployerRoutes = [
   {
     title: "My Job Posts",
@@ -32,6 +35,10 @@ const EmployerRoutes = [
   }
 ]
 
+/**
+ *
+ * @type {[{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string},{link: string, icon: JSX.Element, title: string}]}
+ */
 const EmployeeRoutes = [
   {
     title: "Job Search",

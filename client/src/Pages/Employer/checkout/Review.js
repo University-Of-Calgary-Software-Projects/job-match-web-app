@@ -5,7 +5,19 @@ import { FormHelperText, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import TagsInput from "./TagsInput";
 
+/**
+ *
+ * @param formData
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function Review({ formData }) {
+
+  /**
+   *
+   * @param id
+   * @param value
+   */
   const handleSubmit = (id, value) => {
     formData[id] = value;
   };

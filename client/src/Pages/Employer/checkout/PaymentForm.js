@@ -3,6 +3,12 @@ import Typography from '@mui/material/Typography';
 import TagsInput from './TagsInput';
 import { Box } from '@mui/system';
 
+/**
+ *
+ * @param formData
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function PaymentForm({formData}) {
   return (
     <React.Fragment>

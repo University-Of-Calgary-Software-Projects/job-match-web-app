@@ -14,6 +14,10 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 
 
+/**
+ *
+ * @type {string[]}
+ */
 const steps = ['Step 1', 'Step 2', 'Step 3'];
 
 // function getStepContent(step) {
@@ -29,13 +33,27 @@ const steps = ['Step 1', 'Step 2', 'Step 3'];
 //   }
 // }
 
+/**
+ *
+ * @type {Theme}
+ */
 const theme = createTheme();
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function Checkout() {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({})
 
 
+  /**
+   *
+   * @param step
+   * @returns {JSX.Element}
+   */
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -49,6 +67,7 @@ export default function Checkout() {
     }
   }
 
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -57,10 +76,23 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
+  /**
+   *
+   * @returns {Promise<void>}
+   */
   const submitJobPost = async () => {
+
+    /**
+     *
+     * @type {string}
+     */
     const HID = localStorage.getItem("userID");
     formData.HID = HID;
 
+    /**
+     *
+     * @type {string}
+     */
     const raw = JSON.stringify(formData);
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -72,6 +104,10 @@ export default function Checkout() {
       redirect: 'follow'
     };
 
+    /**
+     *
+     * @type {Response}
+     */
     const response = await fetch(`${process.env.REACT_APP_API_URL}/job-posts/create` , requestOptions);
     if(response.status === 200) {
       handleNext();

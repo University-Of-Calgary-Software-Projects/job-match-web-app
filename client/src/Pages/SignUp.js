@@ -20,6 +20,12 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Copyright(props) {
   return (
     <Typography
@@ -41,9 +47,19 @@ function Copyright(props) {
   );
 }
 
+/**
+ *
+ * @type {Theme}
+ */
 const theme = createTheme();
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function SignUp() {
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [skills, setSkills] = useState([]);
@@ -51,10 +67,25 @@ export default function SignUp() {
   const [errorLabel, setErrorLabel] = useState(false);
   const history = useHistory();
 
+  /**
+   *
+   * @param event
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (event) => {
     console.log("handle submit");
     event.preventDefault();
+
+    /**
+     *
+     * @type {FormData}
+     */
     const data = new FormData(event.currentTarget);
+
+    /**
+     *
+     * @type {{skills: string, firstName: FormDataEntryValue, lastName: FormDataEntryValue, password: FormDataEntryValue, role: FormDataEntryValue, phoneNumber: FormDataEntryValue, location: FormDataEntryValue, email: FormDataEntryValue, username: FormDataEntryValue}|{firstName: FormDataEntryValue, lastName: FormDataEntryValue, password: FormDataEntryValue, role: FormDataEntryValue, businessName: FormDataEntryValue, businessIndustry: FormDataEntryValue, email: FormDataEntryValue, username: FormDataEntryValue}}
+     */
     const formInput =
       role === "jobSeeker"
         ? {
@@ -91,6 +122,10 @@ export default function SignUp() {
       redirect: "follow",
     };
 
+    /**
+     *
+     * @type {Response}
+     */
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/register`,
       requestOptions
@@ -105,12 +140,20 @@ export default function SignUp() {
     }
   };
 
+  /**
+   *
+   * @param event
+   */
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   };
 
+  /**
+   *
+   * @param event
+   */
   const handleChange = (event) => {
     setRole(event.target.value);
   };

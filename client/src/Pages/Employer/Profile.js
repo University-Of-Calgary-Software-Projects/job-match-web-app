@@ -10,34 +10,64 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import styled from "@emotion/styled";
 import { useHistory } from "react-router-dom";
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<BoxTypeMap<{}, "div", Theme>>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const CustomBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<TypographyTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const CustomTypography = styled(Typography)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#B2BAC2" : "#6F7E86",
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<((props: ({href: string} & OverrideProps<ExtendButtonBaseTypeMap<ExtendButtonBaseTypeMap<{props: {children?: React.ReactNode, classes?: Partial<IconButtonClasses>, color?: OverridableStringUnion<"inherit" | "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning", IconButtonPropsColorOverrides>, disabled?: boolean, disableFocusRipple?: boolean, edge?: "start" | "end" | false, size?: OverridableStringUnion<"small" | "medium" | "large", IconButtonPropsSizeOverrides>, sx?: SxProps<Theme>}, defaultComponent: "button"}>>, "a">)) => JSX.Element) & OverridableComponent<ExtendButtonBaseTypeMap<ExtendButtonBaseTypeMap<{props: {children?: React.ReactNode, classes?: Partial<IconButtonClasses>, color?: OverridableStringUnion<"inherit" | "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning", IconButtonPropsColorOverrides>, disabled?: boolean, disableFocusRipple?: boolean, edge?: "start" | "end" | false, size?: OverridableStringUnion<"small" | "medium" | "large", IconButtonPropsSizeOverrides>, sx?: SxProps<Theme>}, defaultComponent: "button"}>>>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const CustomIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#B2BAC2" : "#6F7E86",
 }));
 
 
-
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Profile() {
   const history = useHistory();
   const [data, setData] = useState({});
   const [name, setName] = useState("");
 
   useEffect(() => {
+
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     const fetchData = async () => {
       const userID = localStorage.getItem('userID');
 
+      /**
+       *
+       * @type {{redirect: string, method: string, url: string}}
+       */
       let requestOptions = {
         url: `${process.env.REACT_APP_API_URL}/profile/hiringManager/${userID}`,
         method: 'GET',
         redirect: 'follow'
       }
+
+      /**
+       *
+       * @type {Response}
+       */
       const response = await fetch(`${process.env.REACT_APP_API_URL}/profile/hiringManager/${userID}`, requestOptions);
       if (response.status === 200) {
         const responseData = await response.json() 

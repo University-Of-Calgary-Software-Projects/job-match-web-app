@@ -12,6 +12,10 @@ import { Box } from "@mui/system";
 import styled from "@emotion/styled";
 import { OffersHeaders } from "./OffersHeaders";
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<OverridableComponent<TableTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const MyTable = styled(Table)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
   ...theme.typography.body2,
@@ -20,6 +24,10 @@ const MyTable = styled(Table)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+/**
+ *
+ * @type {StyledComponent<PropsOf<(props: TableCellProps) => JSX.Element> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
+ */
 const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#0d294a" : "white",
   ...theme.typography.body2,
@@ -29,6 +37,11 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Offers() {
   const [data, setData] = useState([]);
 
@@ -53,6 +66,7 @@ function Offers() {
 
     fetchData();
   }, []);
+
 
   return (
     <Box

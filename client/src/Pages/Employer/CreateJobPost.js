@@ -2,6 +2,11 @@ import { Stack } from '@mui/system'
 import React from 'react'
 import Checkout from './checkout/Checkout'
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function CreateJobPost() {
   return (
     <Stack

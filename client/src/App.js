@@ -16,6 +16,11 @@ import JobPost from "./Pages/JobPost";
 import CreateJobPost from "./Pages/CreateJobPost";
 
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function App() {
   return (
     <Router>

@@ -12,6 +12,13 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
 
+
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -25,11 +32,31 @@ function Copyright(props) {
   );
 }
 
+/**
+ *
+ * @type {Theme}
+ */
 const theme = createTheme();
 
+/**
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function SignIn() {
-  const [textFieldError, setTextFieldError] = useState(false);
+
+  /**
+   *
+   * @type {[boolean, React.Dispatch<React.SetStateAction<boolean>>]}
+   */
+  onst [textFieldError, setTextFieldError] = useState(false);
+
+  /**
+   *
+   * @type {History<LocationState>}
+   */
   const history = useHistory();
+
 
   useEffect(() => {
     const handleLogout = () => {
@@ -40,9 +67,12 @@ export default function SignIn() {
     handleLogout()
   }, []);
 
-  
 
-
+  /**
+   *
+   * @param event
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,11 +80,24 @@ export default function SignIn() {
       username: data.get('username'),
       password: data.get('password'),
     };
+    /**
+     *
+     * @type {string}
+     */
     const raw = JSON.stringify(login);
 
 
+    /**
+     *
+     * @type {Headers}
+     */
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+
+    /**
+     *
+     * @type {{redirect: string, headers: Headers, method: string, body: string, url: string}}
+     */
     let requestOptions = {
 			url: `${process.env.REACT_APP_API_URL}/login`,
       method: 'POST',
@@ -63,6 +106,10 @@ export default function SignIn() {
       redirect: 'follow'
     };
 
+    /**
+     *
+     * @type {Response}
+     */
     const response = await fetch(`${process.env.REACT_APP_API_URL}/login` , requestOptions);
     if(response.status === 200) {
       let result = await response.json();

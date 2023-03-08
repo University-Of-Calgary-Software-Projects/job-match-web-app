@@ -134,10 +134,17 @@ export default function Navbar(props) {
     setOpen(true);
   };
 
+  /**
+   *
+   */
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
+  /**
+   *
+   * @type {Theme}
+   */
   const theme = useMemo(() =>
     createTheme({
       palette: {

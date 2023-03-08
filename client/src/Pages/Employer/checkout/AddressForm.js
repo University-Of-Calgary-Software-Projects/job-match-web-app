@@ -7,7 +7,20 @@ import {
   FormHelperText,
 } from "@mui/material";
 
+
+/**
+ *
+ * @param formData
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function AddressForm({ formData }) {
+
+  /**
+   *
+   * @param id
+   * @param value
+   */
   const handleSubmit = (id, value) => {
     formData[id] = value;
   };
