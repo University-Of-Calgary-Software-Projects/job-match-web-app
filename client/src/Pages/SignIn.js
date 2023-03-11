@@ -49,7 +49,7 @@ export default function SignIn() {
    *
    * @type {[boolean, React.Dispatch<React.SetStateAction<boolean>>]}
    */
-  onst [textFieldError, setTextFieldError] = useState(false);
+  const [textFieldError, setTextFieldError] = useState(false);
 
   /**
    *

@@ -88,6 +88,7 @@ export default function Checkout() {
      */
     const HID = localStorage.getItem("userID");
     formData.HID = HID;
+    console.log(formData);
 
     /**
      *
