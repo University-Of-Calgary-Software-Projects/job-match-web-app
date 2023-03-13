@@ -162,6 +162,34 @@ router.post("/create", async (req, res) => {
 });
 
 /**
+ * Handle job-post get request, search jobs
+ * @param searchTerm - search term
+ */
+router.get("/search", async (req, res) => {
+  try {
+    const { searchTerm } = req.body; 
+
+    //query to get industry of the business
+    sql = `
+      SELECT * FROM job_post AS j WHERE j.JobName LIKE '%${searchTerm}%'
+      `;
+
+    try {
+      let stmt = db.prepare(sql);
+      const queryResult = stmt.all();
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error: "no jobs found" });
+    }
+
+    return queryResult;
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Server Error" });
+  }
+});
+
+/**
  * perform sql query to get job posts appropriate to the user
  * @param {string} id - id of jobseeker
  * @returns {object} -returns result of sql query
