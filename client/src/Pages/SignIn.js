@@ -21,13 +21,21 @@ import { useHistory } from 'react-router-dom';
  */
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://github.com/NoureldinAmer">
-        Nour Amer
-      </Link>{' '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link
+        color="inherit"
+        href="https://github.com/University-Of-Calgary-Software-Projects"
+      >
+        University Of Calgary Software Projects
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
