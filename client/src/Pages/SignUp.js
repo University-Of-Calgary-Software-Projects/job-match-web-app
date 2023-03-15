@@ -134,7 +134,7 @@ export default function SignUp() {
     if (response.status === 200) {
       const result = await response.json();
       localStorage.setItem("userID", result.userID);
-      history.push("/");
+      history.push("/login");
     } else {
       setErrorLabel(true);
     }
