@@ -1,10 +1,11 @@
-import { Grow, Typography } from "@mui/material";
+import { Grow, Tooltip, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import Slide from "@mui/material/Slide";
 import Fade from "@mui/material/Fade";
 import Autocomplete from "@mui/material/Autocomplete";
 import Divider from "@mui/material/Divider";
+import { useHistory } from "react-router-dom";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -14,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { blueGrey, red } from "@mui/material/colors";
 import styled from "@emotion/styled";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
@@ -31,6 +33,7 @@ const CustomSearch = styled(Paper)(({ theme }) => ({
 function JobSearch() {
   //const [show, setShow] = useState(true);
   const [queryResults, setQueryResults] = useState([]);
+  const history = useHistory();
 
   const handleChange = (query) => {
     const apiUrl = "http://localhost:3000/search";
@@ -117,6 +120,7 @@ function JobSearch() {
                   },
                 }}
               >
+                <Stack direction={"row"} justifyContent={"space-between"}>
                 <Stack direction={"column"}>
                   <Typography id={`modal-modal-title-${index}`} variant="h5">
                     {row.JobName.title}
@@ -124,6 +128,31 @@ function JobSearch() {
                   <Typography variant="p">{row.JobName}</Typography>
                   <Typography variant="p">{row.Industry}</Typography>
                   <Typography variant="p">{row.DatePosted}</Typography>
+                </Stack>
+                <Tooltip
+                            title="apply"
+                            enterDelay={50}
+                            enterNextDelay={50}
+                          >
+                            <IconButton
+                              
+                              sx={{
+                                transition: "0.3s",
+                                "&:hover": {
+                                  boxShadow: 10,
+                                },
+                              }}
+                              onClick={() =>
+                                history.push({
+                                  //pathname: `/apply/${row.ID}`,
+                                  pathname: `/apply`,
+                                  state: { detail: { id: row.ID } },
+                                })
+                              }
+                            >
+                              <PostAddIcon />
+                            </IconButton>
+                          </Tooltip>
                 </Stack>
               </CustomPaper>
             </Slide>
