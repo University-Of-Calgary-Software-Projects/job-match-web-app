@@ -26,7 +26,7 @@ const CustomBox = styled(Box)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-export default function BasicModal() {
+export default function SignInModal() {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

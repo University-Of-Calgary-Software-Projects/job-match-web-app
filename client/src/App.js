@@ -15,6 +15,7 @@ import JobPost from "./Pages/JobPost";
 // import BasicModal from "./Pages/Modal";
 import CreateJobPost from "./Pages/CreateJobPost";
 import Apply from "./Pages/Apply";
+import SignInModal from "./Components/SigninModal";
 
 
 /**
@@ -32,6 +33,7 @@ function App() {
           <Paper sx={{ boxShadow: "none", border: "none", borderRadius: 0 }}>
             <NavBar>
               {/* <BasicModal /> */}
+              <SignInModal />
               <Switch>
                 <Route exact path="/" component={JobSearch} />
                 <Route exact path="/job-posts" component={JobPosts} />
