@@ -121,38 +121,33 @@ function JobSearch() {
                 }}
               >
                 <Stack direction={"row"} justifyContent={"space-between"}>
-                <Stack direction={"column"}>
-                  <Typography id={`modal-modal-title-${index}`} variant="h5">
-                    {row.JobName.title}
-                  </Typography>
-                  <Typography variant="p">{row.JobName}</Typography>
-                  <Typography variant="p">{row.Industry}</Typography>
-                  <Typography variant="p">{row.DatePosted}</Typography>
-                </Stack>
-                <Tooltip
-                            title="apply"
-                            enterDelay={50}
-                            enterNextDelay={50}
-                          >
-                            <IconButton
-                              
-                              sx={{
-                                transition: "0.3s",
-                                "&:hover": {
-                                  boxShadow: 10,
-                                },
-                              }}
-                              onClick={() =>
-                                history.push({
-                                  //pathname: `/apply/${row.ID}`,
-                                  pathname: `/apply`,
-                                  state: { detail: { id: row.ID } },
-                                })
-                              }
-                            >
-                              <PostAddIcon />
-                            </IconButton>
-                          </Tooltip>
+                  <Stack direction={"column"}>
+                    <Typography id={`modal-modal-title-${index}`} variant="h5">
+                      {row.JobName.title}
+                    </Typography>
+                    <Typography variant="p">{row.JobName}</Typography>
+                    <Typography variant="p">{row.Industry}</Typography>
+                    <Typography variant="p">{row.DatePosted}</Typography>
+                  </Stack>
+                  <Tooltip title="apply" enterDelay={50} enterNextDelay={50}>
+                    <IconButton
+                      sx={{
+                        transition: "0.3s",
+                        "&:hover": {
+                          boxShadow: 10,
+                        },
+                      }}
+                      onClick={() =>
+                        history.push({
+                          //pathname: `/apply/${row.ID}`,
+                          pathname: `/apply`,
+                          state: { detail: { id: row.ID } },
+                        })
+                      }
+                    >
+                      <PostAddIcon />
+                    </IconButton>
+                  </Tooltip>
                 </Stack>
               </CustomPaper>
             </Slide>

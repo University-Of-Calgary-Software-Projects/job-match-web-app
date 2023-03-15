@@ -21,10 +21,10 @@ export const OffersHeaders = [
   },
   {
     HEADER: 'Business Name',
-    accessor: "businessName"
+    accessor: "Business_Name"
   },
   {
     HEADER: 'Industry',
-    accessor: "Industry"
+    accessor: "Business_Industry"
   },
 ]

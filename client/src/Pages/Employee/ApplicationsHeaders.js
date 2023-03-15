@@ -21,10 +21,10 @@ export const ApplicationsHeaders = [
   },
   {
     HEADER: 'Company',
-    accessor: 'Name'
+    accessor: 'Business_Name'
   },
   {
     HEADER: 'Industry',
-    accessor: "Industry"
+    accessor: "Business_Industry"
   }
 ]

@@ -36,7 +36,7 @@ function queryJobSeeker(id) {
 	//sql query
 	let sql = `
   SELECT o.Salary, o.JobSeekerStatus, o.ClientStatus,
-  h.First_Name || ' ' || h.Last_Name AS hName, h.Business_Name AS businessName, h.Business_Industry
+  h.First_Name || ' ' || h.Last_Name AS hName, h.Business_Name, h.Business_Industry
   FROM offer AS o, job_seeker AS f, hiring_manager AS h
   WHERE o.JSID = f.ID AND h.ID=o.HID
   AND f.ID=?
