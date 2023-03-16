@@ -4,6 +4,43 @@ const Database = require("better-sqlite3");
 const db = new Database("jobmatch.db", { verbose: console.log });
 
 /**
+ * Create job offer
+ */
+
+router.post("/create", async (req, res) => {
+	try {
+		const { JSID, HID, JID } = req.body;
+
+		let sql1 = `
+			SELECT Salary
+			FROM job_post AS jp
+			WHERE jp.ID = ?
+  		`;
+		let stmt1 = db.prepare(sql1);
+		const Salary = stmt1.all(JID);
+
+		let sql2 = `
+			INSERT INTO offer
+			VALUES (?, ?, ?, ?, ?)
+	  	`;
+		
+		stmt2 = db.prepare(sql2);
+		const result2 = stmt2.run(
+			"agreed",
+			"pending",
+			Salary,
+			JSID,
+			HID,
+		);
+		console.log(result2);
+		return res.status(200).json({ msg: "successfully created offer" });
+	} catch (error) {
+		console.log(error);
+		return res.status(400).json({ error: "could not create offer" });
+	}
+});
+
+/**
  * Handle get request, to view the offers owned by a user
  * @param - role (either a jobSeeker, hiring manager)
  */
