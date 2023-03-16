@@ -25,6 +25,10 @@ const CustomSearch = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
 }));
 
+const CustomIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.mode === "dark" ? "#B2BAC2" : "#6F7E86",
+}));
+
 /**
  *
  * @returns {JSX.Element}
@@ -130,7 +134,7 @@ function JobSearch() {
                     <Typography variant="p">{row.DatePosted}</Typography>
                   </Stack>
                   <Tooltip title="apply" enterDelay={50} enterNextDelay={50}>
-                    <IconButton
+                    <CustomIconButton
                       sx={{
                         transition: "0.3s",
                         "&:hover": {
@@ -146,7 +150,7 @@ function JobSearch() {
                       }
                     >
                       <PostAddIcon />
-                    </IconButton>
+                    </CustomIconButton>
                   </Tooltip>
                 </Stack>
               </CustomPaper>

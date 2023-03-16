@@ -119,7 +119,6 @@ function Apply() {
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 name="firstName"
-                required
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -129,7 +128,6 @@ function Apply() {
 
             <Grid item xs={12} sm={6}>
               <CustomTextField
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -139,7 +137,6 @@ function Apply() {
             </Grid>
             <Grid item xs={12}>
               <CustomTextField
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -149,7 +146,6 @@ function Apply() {
             </Grid>
             <Grid item xs={12}>
               <CustomTextField
-                required
                 fullWidth
                 name="phoneNumber"
                 label="Phone"
@@ -171,6 +167,7 @@ function Apply() {
                   Years Of Experience
                 </InputLabel>
                 <CustomSelect
+                  required
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={YOF}
@@ -182,8 +179,14 @@ function Apply() {
                     less than 3 months
                   </MenuItem>
                   <MenuItem value={"3 to 8 months"}>3 to 8 months</MenuItem>
-                  <MenuItem value={"more than 8 months"}>
-                    more than 8 months
+                  <MenuItem value={"8 to 12 months"}>
+                    8 to 12 months
+                  </MenuItem>
+                  <MenuItem value={"1 year to 5 years"}>
+                    1 year to 5 years
+                  </MenuItem>
+                  <MenuItem value={"1 year to 5 years"}>
+                    more than 5 years
                   </MenuItem>
                 </CustomSelect>
                 <FormHelperText>
