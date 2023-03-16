@@ -12,17 +12,18 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  * @param YOF - years of experience
  * @param resumeUrl - link to url
  * @param additionalInfo - additional info to add to the application
+ * @param resumeData - byte array for pdf
  * @returns {object} - returns successful message if application added, else return
  * error msg
  */
 router.post("/", async (req, res) => {
 	try {
-		const { JID, JSID, YOF, resumeUrl, additionalInfo } = req.body;
+		const { JID, JSID, YOF, resumeUrl, additionalInfo, resumeData } = req.body;
 		const date = getCurrentDate();
 
 		let sql = `
 	  INSERT INTO application
-	  VALUES (?, ?, ?, ?, ?, ?)
+	  VALUES (?, ?, ?, ?, ?, ?, ?)
 	  `;
 		stmt = db.prepare(sql);
 		const result = stmt.run(
@@ -31,7 +32,8 @@ router.post("/", async (req, res) => {
 			JSID,
 			JID,
 			additionalInfo,
-			date
+			date,
+			resumeData
 		);
 		console.log(result);
 		return res.status(200).json({ msg: "successfully added application" });

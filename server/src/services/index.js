@@ -6,4 +6,5 @@ module.exports = {
 	...require("./offers"),
 	...require("./profile"),
 	...require("./search"),
+
 };

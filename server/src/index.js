@@ -8,7 +8,8 @@ const {
 	ApplyService,
 	OffersService,
 	ProfileService,
-	SearchService
+	SearchService,
+	
 } = require("./services");
 
 const app = express();
@@ -23,6 +24,7 @@ app.use("/apply", ApplyService);
 app.use("/offers", OffersService);
 app.use("/profile", ProfileService);
 app.use("/search", SearchService);
+
 
 app.listen(3000, () => {
 	console.log("Server is running on port 3000");
