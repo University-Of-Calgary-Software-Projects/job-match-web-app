@@ -68,4 +68,23 @@ router.get("/:id/applications", async (req, res) => {
 	}
 });
 
+
+router.get("/view-resume", async (req, res) => {
+	try {
+		const { JSID, JID  } = req.body;
+		let sql = `
+		SELECT a.pdf_data
+		FROM application AS a 
+		WHERE a.JSID= ? AND a.JID= ?
+		`;
+		let stmt = db.prepare(sql);
+		const result = stmt.all(JSID, JID );
+
+		return res.status(200).json({ results: result });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ error: "Server Error" });
+	}
+});
+
 module.exports = { ApplyService: router };
