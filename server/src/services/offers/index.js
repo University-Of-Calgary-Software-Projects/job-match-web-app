@@ -17,7 +17,8 @@ router.post("/create", async (req, res) => {
 			WHERE jp.ID = ?
   		`;
 		let stmt1 = db.prepare(sql1);
-		const Salary = stmt1.all(JID);
+		const result = stmt1.all(JID)[0];
+		const Salary = result.Salary;
 
 		let sql2 = `
 			INSERT INTO offer
@@ -72,7 +73,7 @@ router.get("/:role/:id", async (req, res) => {
 function queryJobSeeker(id) {
 	//sql query
 	let sql = `
-  SELECT o.Salary, o.JobSeekerStatus, o.ClientStatus,
+  SELECT o.Salary, o.JobSeekerStatus, o.ClientStatus, o.HID,
   h.First_Name || ' ' || h.Last_Name AS hName, h.Business_Name, h.Business_Industry
   FROM offer AS o, job_seeker AS f, hiring_manager AS h
   WHERE o.JSID = f.ID AND h.ID=o.HID
