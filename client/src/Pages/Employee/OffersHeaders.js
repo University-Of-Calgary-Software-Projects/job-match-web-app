@@ -9,7 +9,7 @@ export const OffersHeaders = [
   },
   {
     HEADER: 'My Status',
-    accessor: "jobSeekerstatus"
+    accessor: "JobSeekerStatus"
   },
   {
     HEADER: 'Hiring Manager Status',
