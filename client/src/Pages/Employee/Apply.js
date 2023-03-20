@@ -55,7 +55,10 @@ function Apply() {
   const history = useHistory();
   const [YOF, setYOF] = useState("");
   const [data, setData] = useState([]);
-  const [pdfFileName, setPdfFileName] = useState("");
+  const [file, setFile] = useState({});
+  const [additionalInfo, setAdditionalInfo] = useState("");
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,11 +82,14 @@ function Apply() {
     fetchData();
   }, []);
 
+  const handleAdditionalInfoChange = (event) => {
+    setAdditionalInfo(event.target.value);
+  }
+
   const handlePdfUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setPdfFileName(file.name);
-      console.log(file);
+      setFile(file);
     }
   };
 
@@ -93,18 +99,17 @@ function Apply() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data);
+    console.log(location.state.detail.id)
     const formInput = {
       JID: location.state.detail.id,
       JSID: localStorage.getItem("userID"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      phoneNumber: data.get("phoneNumber"),
-      YOF: data.get("YOF"),
-      resumeUrl: data.get("resumeUrl"),
-      additionalInfo: data.get("additionalInfo"),
+      firstName: data.FirstName,
+      lastName: data.LastName,
+      email: data.Email,
+      phoneNumber: data.PhoneNo,
+      YOF: YOF,
+      additionalInfo: additionalInfo,
+      resume: file
     };
     const raw = JSON.stringify(formInput);
     let myHeaders = new Headers();
@@ -201,7 +206,7 @@ function Apply() {
                           Upload
                         </CustomButton>
 
-                        {pdfFileName && (
+                        {file.name && (
                           <Typography
                             variant="caption"
                             sx={{
@@ -209,7 +214,7 @@ function Apply() {
                               display: "inline-block",
                             }}
                           >
-                            {pdfFileName}
+                            {file.name}
                           </Typography>
                         )}
                       </Box>
@@ -317,6 +322,7 @@ function Apply() {
                 fullWidth
                 multiline
                 minRows={5}
+                onChange={handleAdditionalInfoChange}
               />
             </Grid>
           </Grid>
