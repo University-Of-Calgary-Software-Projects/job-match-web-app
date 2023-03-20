@@ -41,7 +41,7 @@ router.get("/:jobID", async (req, res) => {
     let sql = `
     SELECT j.FirstName || ' ' || j.LastName AS name, 
     j.Email AS email, a.YearsOfExperience, j.Location AS location,
-    j.PhoneNo, A.ApplicantURL AS url
+    j.PhoneNo, A.ApplicantURL AS url, a.JSID AS JSID
     FROM application AS a, job_seeker AS j
     WHERE a.JID=?
     AND a.JSID=j.ID
