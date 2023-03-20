@@ -1,16 +1,20 @@
 import {
+  FormControl,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import styled from "@emotion/styled";
 import { OffersHeaders } from "./OffersHeaders";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 /**
  *
@@ -44,6 +48,13 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  */
 function Offers() {
   const [data, setData] = useState([]);
+  
+  const handleSelectChange = (value, index) => {
+    console.log(`${value} for ${index}. ID is ${data[0].HID}`);
+    let newData = [...data];
+    newData[index].JobSeekerStatus = value;
+    setData(newData);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +77,6 @@ function Offers() {
 
     fetchData();
   }, []);
-
 
   return (
     <Box
@@ -96,7 +106,7 @@ function Offers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => {
+            {data.map((row, index) => {
               return (
                 <TableRow
                   hover
@@ -112,16 +122,52 @@ function Offers() {
                 >
                   {OffersHeaders.map((column) => {
                     const value = row[column.accessor];
-                    return (
-                      <TableCell
-                        key={column.accessor}
-                        align="center"
-                      >
-                        {column.format && typeof value === "number"
-                          ? column.format(value)
-                          : value}
-                      </TableCell>
-                    );
+                    if (column.accessor === "JobSeekerStatus") {
+                      return (
+                        <TableCell key={column.accessor} align="center">
+                          <FormControl
+                            sx={{ m: 0.5, minWidth: 100,maxWidth: 100 }}
+                            size="small"
+                          >
+                            <Select
+                              labelId="freelancer-status"
+                              id="freelancer-status"
+                              value={value}
+                              onChange={(event) => {
+                                handleSelectChange(event.target.value, index)
+                              }}
+                              autoWidth
+                            >
+                              <MenuItem value={"rejected"}>
+                                <Typography variant="body2">
+                                  rejected
+                                </Typography>
+                              </MenuItem>
+
+                              <MenuItem value={"accepted"}>
+                                <Typography variant="body2">
+                                  accepted
+                                </Typography>
+                              </MenuItem>
+
+                              <MenuItem value={"pending"}>
+                                <Typography variant="body2">
+                                  pending
+                                </Typography>
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell key={column.accessor} align="center">
+                          {column.format && typeof value === "number"
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    }
                   })}
                 </TableRow>
               );
