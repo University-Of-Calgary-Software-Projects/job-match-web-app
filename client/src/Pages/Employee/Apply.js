@@ -99,7 +99,7 @@ function Apply() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(location.state.detail.id)
+    
     const formInput = {
       JID: location.state.detail.id,
       JSID: localStorage.getItem("userID"),
