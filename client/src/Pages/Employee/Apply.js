@@ -1,6 +1,6 @@
-import { Alert } from "@mui/material";
+import { Alert, Fab, IconButton, Paper, SvgIcon } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import UploadIcon from "@mui/icons-material/Upload";
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
@@ -22,9 +24,6 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
       border:
         theme.palette.mode === "dark" ? "2px solid white" : "2px solid black",
     },
-  },
-  "& .MuiFormLabel-root": {
-    color: theme.palette.mode === "dark" ? "#BABAC2" : null,
   },
 }));
 
@@ -39,11 +38,80 @@ const CustomSelect = styled(Select)(({ theme }) => ({
   },
 }));
 
+const CustomPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
+  padding: 10,
+}));
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  borderColor: theme.palette.mode === "dark" ? "white" : "#18385C",
+  color: theme.palette.mode === "dark" ? "white" : "#18385C",
+  padding: 10,
+}));
+
+const FirstNameInput = ({ firstName, onFirstNameChange }) => {
+  return (
+    <CustomTextField
+      name="firstName"
+      fullWidth
+      id="firstName"
+      label="First Name"
+      inputProps={{ autoComplete: "off" }}
+      value={firstName}
+      onChange={onFirstNameChange}
+    />
+  );
+};
+
 function Apply() {
   const [errorLabel, setErrorLabel] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const [YOF, setYOF] = useState("");
+  const [data, setData] = useState([]);
+  
+  const [lastName, setLastName] = useState('');
+  const [email, setEail] = useState('');
+  const [phoneNo, setPhoneNo] = useState('');
+  const [pdfFileName, setPdfFileName] = useState("");
+  const [firstName, setFirstName] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userID = localStorage.getItem("userID");
+
+      let requestOptions = {
+        url: `${process.env.REACT_APP_API_URL}/profile/jobSeeker/${userID}`,
+        method: "GET",
+        redirect: "follow",
+      };
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/profile/jobSeeker/${userID}`,
+        requestOptions
+      );
+      if (response.status === 200) {
+        const responseData = await response.json();
+        setData(responseData.results);
+        //setFirstName("damn");
+        setFirstName("something");
+        //setName(`${responseData.results.FirstName} ${responseData.results.LastName}`)
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handlePdfUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setPdfFileName(file.name);
+      console.log(file);
+    }
+  };
 
   const handleChange = (event) => {
     setYOF(event.target.value);
@@ -74,7 +142,10 @@ function Apply() {
       redirect: "follow",
     };
 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/apply`, requestOptions);
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/apply`,
+      requestOptions
+    );
 
     if (response.status === 200) {
       const result = await response.json();
@@ -116,6 +187,63 @@ function Apply() {
           onFocus={() => setErrorLabel(false)}
         >
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <CustomPaper sx={{}}>
+                <Stack direction={"row"} alignItems="center" spacing={1}>
+                  <IconButton size="large" disabled>
+                    <BadgeOutlinedIcon fontSize="inherit" />
+                  </IconButton>
+                  <Stack direction={"column"} spacing={2}>
+                    <Typography variant="h4"
+                    >Résumé</Typography>
+                    <Typography>
+                      To start your application, upload your resume in English
+                      as PDF with a max size of 2 MB.
+                    </Typography>
+                    <FormControl fullWidth>
+                      <input
+                        accept="application/pdf"
+                        id="pdfDocument"
+                        type="file"
+                        onChange={handlePdfUpload}
+                        hidden
+                      />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <CustomButton
+                          variant="outlined"
+                          component="label"
+                          htmlFor="pdfDocument"
+                          startIcon={<UploadIcon />}
+                          sx={{
+                            width: "fit-content",
+                          }}
+                        >
+                          Upload
+                        </CustomButton>
+
+                        {pdfFileName && (
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              ml: 2,
+                              display: "inline-block",
+                            }}
+                          >
+                            {pdfFileName}
+                          </Typography>
+                        )}
+                      </Box>
+                    </FormControl>
+                  </Stack>
+                </Stack>
+              </CustomPaper>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 name="firstName"
@@ -123,7 +251,9 @@ function Apply() {
                 id="firstName"
                 label="First Name"
                 inputProps={{ autoComplete: "off" }}
+                defaultValue={firstName}
               />
+               <FirstNameInput defaultFirstName={firstName} onFirstNameChange={handleFirstNameChange}/>
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -133,6 +263,7 @@ function Apply() {
                 label="Last Name"
                 name="lastName"
                 inputProps={{ autoComplete: "off" }}
+                defaultValue={data.LastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -179,9 +310,7 @@ function Apply() {
                     less than 3 months
                   </MenuItem>
                   <MenuItem value={"3 to 8 months"}>3 to 8 months</MenuItem>
-                  <MenuItem value={"8 to 12 months"}>
-                    8 to 12 months
-                  </MenuItem>
+                  <MenuItem value={"8 to 12 months"}>8 to 12 months</MenuItem>
                   <MenuItem value={"1 year to 5 years"}>
                     1 year to 5 years
                   </MenuItem>
@@ -195,7 +324,6 @@ function Apply() {
                 </FormHelperText>
               </FormControl>
             </Grid>
-
             <Grid item xs={12}>
               <CustomTextField
                 required
@@ -220,6 +348,7 @@ function Apply() {
               />
             </Grid>
           </Grid>
+
           <Stack direction={"row"} justifyContent={"center"}>
             <Button
               type="submit"
