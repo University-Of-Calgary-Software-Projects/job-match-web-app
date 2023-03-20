@@ -128,7 +128,7 @@ export default function Navbar(props) {
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false);
   const history = useHistory();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
