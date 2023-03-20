@@ -25,13 +25,13 @@ router.post("/create", async (req, res) => {
 			VALUES (?, ?, ?, ?, ?)
 	  	`;
 		
-		stmt2 = db.prepare(sql2);
+		let stmt2 = db.prepare(sql2);
 		const result2 = stmt2.run(
 			"agreed",
 			"pending",
 			Salary,
 			JSID,
-			HID,
+			JID,
 		);
 		console.log(result2);
 		return res.status(200).json({ msg: "successfully created offer" });
@@ -39,6 +39,32 @@ router.post("/create", async (req, res) => {
 		console.log(error);
 		return res.status(400).json({ error: "could not create offer" });
 	}
+});
+
+/**
+ * Update job offer status for job seeker
+ */
+
+router.post("/update-status-job-seeker", async (req, res) => {
+	try {
+		const { JSID, STATUS, JID } = req.body;
+
+		let sql1 = `
+			UPDATE offer SET JobSeekerStatus = ? WHERE JSID = ? AND JID = ?
+			
+	  	`;
+		
+		let stmt1 = db.prepare(sql1);
+		const result2 = stmt1.run(
+		   STATUS, JSID, JID
+		);
+		console.log(result2);
+		return res.status(200).json({ msg: "successfully created offer" });
+	} catch (error) {
+		console.log(error);
+		return res.status(400).json({ error: "could not create offer" });
+	}
+	
 });
 
 /**
