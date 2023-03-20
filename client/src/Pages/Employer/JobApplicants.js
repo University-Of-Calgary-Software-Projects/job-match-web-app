@@ -15,6 +15,7 @@ import { Box } from "@mui/system";
 import styled from "@emotion/styled";
 import { JobApplicantsHeaders } from "./JobApplicantsHeaders";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useLocation } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 
@@ -100,6 +101,30 @@ function JobApplicants() {
     fetchData();
   }, []);
 
+  const handleSendOffer = async ({JSID}) => {
+    console.log(JSID);
+
+    const raw = JSON.stringify({
+      HID: localStorage.getItem("userID"),
+      JSID: JSID,
+      JID: localStorage.getItem("jobID")
+    });
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      url: `${process.env.REACT_APP_API_URL}/offers/create`,
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/offers/create`, requestOptions);
+
+    if (response.status === 200) {
+      const result = await response.json();
+    }
+  }
 
   const handleOpenModal = () => {
     setModal(true);
@@ -142,12 +167,32 @@ function JobApplicants() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => {
+              {data.map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {JobApplicantsHeaders.map((column) => {
                       const value = row[column.accessor];
-                      if (column.accessor === "url") {
+                      if(column.accessor === "sendOffer") {
+                        return (
+                          <TableCell key={column.accessor}>
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              onClick={() => {
+                                handleSendOffer(data[index]);
+                              }}
+                              sx={{
+                                transition: "0.3s",
+                                "&:hover": {
+                                  boxShadow: 10,
+                                },
+                              }}
+                            >
+                              <OpenInNewIcon fontSize="inherit" />
+                            </IconButton>
+                          </TableCell>
+                        );
+                      } else if (column.accessor === "url") {
                         return (
                           <TableCell key={column.accessor}>
                             <IconButton
@@ -161,7 +206,7 @@ function JobApplicants() {
                                 },
                               }}
                             >
-                              <OpenInNewIcon fontSize="inherit" />
+                              <PictureAsPdfIcon fontSize="inherit" />
                             </IconButton>
                           </TableCell>
                         );
