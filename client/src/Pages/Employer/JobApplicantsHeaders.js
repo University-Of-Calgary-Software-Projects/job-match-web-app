@@ -21,10 +21,14 @@ export const JobApplicantsHeaders = [
     accessor: 'location'
   },
   {
-    HEADER: 'PhoneNo',
+    HEADER: 'Phone No.',
     accessor: "PhoneNo"
   },
   {
     accessor: "url"
+  },
+  {
+    HEADER: "Send Offer",
+    accessor: "sendOffer"
   }
 ]
