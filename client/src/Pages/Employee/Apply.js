@@ -1,4 +1,4 @@
-import { Alert, Fab, IconButton, Paper, SvgIcon } from "@mui/material";
+import { Alert, IconButton, Paper } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
@@ -49,32 +49,13 @@ const CustomButton = styled(Button)(({ theme }) => ({
   padding: 10,
 }));
 
-const FirstNameInput = ({ firstName, onFirstNameChange }) => {
-  return (
-    <CustomTextField
-      name="firstName"
-      fullWidth
-      id="firstName"
-      label="First Name"
-      inputProps={{ autoComplete: "off" }}
-      value={firstName}
-      onChange={onFirstNameChange}
-    />
-  );
-};
-
 function Apply() {
   const [errorLabel, setErrorLabel] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const [YOF, setYOF] = useState("");
   const [data, setData] = useState([]);
-  
-  const [lastName, setLastName] = useState('');
-  const [email, setEail] = useState('');
-  const [phoneNo, setPhoneNo] = useState('');
   const [pdfFileName, setPdfFileName] = useState("");
-  const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,18 +73,11 @@ function Apply() {
       if (response.status === 200) {
         const responseData = await response.json();
         setData(responseData.results);
-        //setFirstName("damn");
-        setFirstName("something");
-        //setName(`${responseData.results.FirstName} ${responseData.results.LastName}`)
       }
     };
 
     fetchData();
   }, []);
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
 
   const handlePdfUpload = (event) => {
     const file = event.target.files[0];
@@ -120,6 +94,7 @@ function Apply() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(data);
     const formInput = {
       JID: location.state.detail.id,
       JSID: localStorage.getItem("userID"),
@@ -148,7 +123,6 @@ function Apply() {
     );
 
     if (response.status === 200) {
-      const result = await response.json();
       history.push("/applications");
     } else {
       setErrorLabel(true);
@@ -249,45 +223,43 @@ function Apply() {
                 name="firstName"
                 fullWidth
                 id="firstName"
-                label="First Name"
                 inputProps={{ autoComplete: "off" }}
-                defaultValue={firstName}
+                value= {data.FirstName}
               />
-               <FirstNameInput defaultFirstName={firstName} onFirstNameChange={handleFirstNameChange}/>
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 fullWidth
                 id="lastName"
-                label="Last Name"
                 name="lastName"
                 inputProps={{ autoComplete: "off" }}
-                defaultValue={data.LastName}
+                value= {data.LastName}
               />
             </Grid>
             <Grid item xs={12}>
               <CustomTextField
                 fullWidth
                 id="email"
-                label="Email Address"
                 name="email"
                 inputProps={{ autoComplete: "off" }}
+                value= {data.Email}
               />
             </Grid>
             <Grid item xs={12}>
               <CustomTextField
                 fullWidth
                 name="phoneNumber"
-                label="Phone"
                 type="phone"
                 id="phoneNumber"
                 inputProps={{ autoComplete: "off" }}
+                value= {data.PhoneNo}
               />
             </Grid>
             <Grid item xs={12}>
               <FormControl sx={{ minWidth: 120, width: "100%" }}>
                 <InputLabel
+                  required
                   id="demo-simple-select-helper-label"
                   sx={{
                     "&.Mui-focused": {
