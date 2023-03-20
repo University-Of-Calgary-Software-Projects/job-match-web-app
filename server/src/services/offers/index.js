@@ -67,6 +67,28 @@ router.post("/update-status-job-seeker", async (req, res) => {
 	
 });
 
+router.post("/update-status-hiring-manager", async (req, res) => {
+	try {
+		const { JSID, STATUS, JID } = req.body;
+
+		let sql1 = `
+			UPDATE offer SET ClientStatus = ? WHERE JSID = ? AND JID = ?
+			
+	  	`;
+		
+		let stmt1 = db.prepare(sql1);
+		const result2 = stmt1.run(
+		   STATUS, JSID, JID
+		);
+		console.log(result2);
+		return res.status(200).json({ msg: "successfully created offer" });
+	} catch (error) {
+		console.log(error);
+		return res.status(400).json({ error: "could not create offer" });
+	}
+	
+});
+
 /**
  * Handle get request, to view the offers owned by a user
  * @param - role (either a jobSeeker, hiring manager)

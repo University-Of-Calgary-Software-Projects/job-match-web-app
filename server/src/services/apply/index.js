@@ -18,17 +18,16 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  */
 router.post("/", async (req, res) => {
 	try {
-		const { JID, JSID, YOF, resumeUrl, additionalInfo, resumeData } = req.body;
+		const { JID, JSID, YOF, additionalInfo, resumeData } = req.body;
 		const date = getCurrentDate();
 
 		let sql = `
 	  INSERT INTO application
-	  VALUES (?, ?, ?, ?, ?, ?, ?)
+	  VALUES (?, ?, ?, ?, ?, ?)
 	  `;
 		stmt = db.prepare(sql);
 		const result = stmt.run(
 			YOF,
-			resumeUrl,
 			JSID,
 			JID,
 			additionalInfo,
