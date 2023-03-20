@@ -103,10 +103,6 @@ function Apply() {
     const formInput = {
       JID: location.state.detail.id,
       JSID: localStorage.getItem("userID"),
-      firstName: data.FirstName,
-      lastName: data.LastName,
-      email: data.Email,
-      phoneNumber: data.PhoneNo,
       YOF: YOF,
       additionalInfo: additionalInfo,
       resume: file
