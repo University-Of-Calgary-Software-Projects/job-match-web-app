@@ -1,4 +1,5 @@
 import { Alert, IconButton, Paper } from "@mui/material";
+import axios from 'axios';
 import { Stack } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
@@ -55,10 +56,9 @@ function Apply() {
   const history = useHistory();
   const [YOF, setYOF] = useState("");
   const [data, setData] = useState([]);
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState(null);
+  const [pdfBlob, setPdfBlob] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,49 +84,59 @@ function Apply() {
 
   const handleAdditionalInfoChange = (event) => {
     setAdditionalInfo(event.target.value);
-  }
+  };
+
+  const extractBlob = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const blob = new Blob([event.target.result], { type: file.type });
+        resolve(blob);
+
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  };
 
   const handlePdfUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setFile(file);
-    }
+    console.log(file.name);
+    setFile(file);
   };
 
   const handleChange = (event) => {
     setYOF(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    
-    const formInput = {
-      JID: location.state.detail.id,
-      JSID: localStorage.getItem("userID"),
-      YOF: YOF,
-      additionalInfo: additionalInfo,
-      resume: file
-    };
-    const raw = JSON.stringify(formInput);
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    let requestOptions = {
-      url: `${process.env.REACT_APP_API_URL}/apply`,
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('resumeData', file);
+    formData.append('JID', location.state.detail.id);
+    formData.append('JSID', localStorage.getItem("userID"));
+    formData.append('YOF', YOF);
+    formData.append('additionalInfo', additionalInfo);
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/apply`,
-      requestOptions
-    );
 
-    if (response.status === 200) {
-      history.push("/applications");
-    } else {
-      setErrorLabel(true);
+    try {
+      const response = await fetch('http://localhost:3000/apply', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        console.error('Error uploading file');
+      }
+    } catch (error) {
+      console.error('Error uploading file', error);
     }
   };
 
@@ -169,8 +179,7 @@ function Apply() {
                     <BadgeOutlinedIcon fontSize="inherit" />
                   </IconButton>
                   <Stack direction={"column"} spacing={2}>
-                    <Typography variant="h4"
-                    >Résumé</Typography>
+                    <Typography variant="h4">Résumé</Typography>
                     <Typography>
                       To start your application, upload your resume in English
                       as PDF with a max size of 2 MB.
@@ -202,7 +211,7 @@ function Apply() {
                           Upload
                         </CustomButton>
 
-                        {file.name && (
+                        {file && (
                           <Typography
                             variant="caption"
                             sx={{
@@ -225,7 +234,7 @@ function Apply() {
                 fullWidth
                 id="firstName"
                 inputProps={{ autoComplete: "off" }}
-                value= {data.FirstName}
+                value={data.FirstName}
               />
             </Grid>
 
@@ -235,7 +244,7 @@ function Apply() {
                 id="lastName"
                 name="lastName"
                 inputProps={{ autoComplete: "off" }}
-                value= {data.LastName}
+                value={data.LastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -244,7 +253,7 @@ function Apply() {
                 id="email"
                 name="email"
                 inputProps={{ autoComplete: "off" }}
-                value= {data.Email}
+                value={data.Email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -254,7 +263,7 @@ function Apply() {
                 type="phone"
                 id="phoneNumber"
                 inputProps={{ autoComplete: "off" }}
-                value= {data.PhoneNo}
+                value={data.PhoneNo}
               />
             </Grid>
             <Grid item xs={12}>
