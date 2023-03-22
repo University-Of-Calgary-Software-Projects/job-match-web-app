@@ -18,11 +18,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useHistory } from "react-router-dom";
 import { EmployeeRoutes as routes } from "../routes";
-
+import LogoutIcon from '@mui/icons-material/Logout';
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeProvider } from "@emotion/react";
-import { Paper } from "@mui/material";
+import { Paper, Tooltip } from "@mui/material";
 
 /**
  *
@@ -297,6 +297,7 @@ export default function Navbar(props) {
                     px: 2.5,
                   }}
                 >
+                  <Tooltip title={route.title} enterDelay={300} enterNextDelay={300}>
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -314,6 +315,7 @@ export default function Navbar(props) {
                   >
                     {route.icon}
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText
                     primary={route.title}
                     sx={{ opacity: open ? 1 : 0,  }}
@@ -353,6 +355,39 @@ export default function Navbar(props) {
                 </ListItemIcon>
                 <ListItemText
                   primary={darkMode ? "Dark mode" : "Light mode"}
+                  sx={{ opacity: open ? 1 : 0,  }}
+                  primaryTypographyProps={{fontFamily: "IBM Plex Sans", fontWeight: "650"}}
+                />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem key="darkmode" sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  borderRadius: "10px",
+                }}
+                onClick={() => {
+                  history.push('/login');
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                    color:
+                      theme.palette.mode === "light"
+                        ? "sideBarIcons.light"
+                        : "sideBarIcons.dark",
+                  }}
+                >
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Sign Out"
                   sx={{ opacity: open ? 1 : 0,  }}
                   primaryTypographyProps={{fontFamily: "IBM Plex Sans", fontWeight: "650"}}
                 />
