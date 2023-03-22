@@ -68,7 +68,7 @@ export default function SignInModal() {
           >
             <Box></Box>
             <Button
-              onClick={() => history.push('./login')}
+              onClick={() => history.push('/login')}
               variant="contained"
               sx={{
                 bgcolor: "#649AF7",

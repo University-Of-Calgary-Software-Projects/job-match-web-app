@@ -73,7 +73,6 @@ router.post("/update-status-hiring-manager", async (req, res) => {
 
 		let sql1 = `
 			UPDATE offer SET ClientStatus = ? WHERE JSID = ? AND JID = ?
-			
 	  	`;
 		
 		let stmt1 = db.prepare(sql1);
