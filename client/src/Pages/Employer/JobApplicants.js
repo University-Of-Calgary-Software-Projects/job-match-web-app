@@ -14,6 +14,8 @@ import {
   CircularProgress,
   LinearProgress,
   Stack,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
@@ -59,7 +61,7 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  * @type {StyledComponent<PropsOf<OverridableComponent<BoxTypeMap>> & {theme?: Theme} & {readonly theme?: *}, {}, {}>}
  */
 const CustomBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "white",
+  backgroundColor: theme.palette.mode === "dark" ? "#18385C" : "#E6E9ED",
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -84,6 +86,7 @@ function JobApplicants() {
   const [numPages, setNumPages] = useState(null);
   const [loading, setLoading] = useState(true);
   const [noResume, setNoResume] = useState(false);
+  const [offer, setOffer] = useState(null);
 
   const pdfContainerStyle = {
     maxHeight: "80vh", // Change the percentage value according to your needs
@@ -150,7 +153,16 @@ function JobApplicants() {
 
     if (response.status === 200) {
       const result = await response.json();
+      setOffer('Offer Sent: An email has been sent to the applicant with the offer details.')
+    } else {
+      setOffer('Could not send offer, please try again at another time')
     }
+  };
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOffer(null);
   };
 
   const handleOpenModal = async ({ JSID }) => {
@@ -176,19 +188,7 @@ function JobApplicants() {
 
     if (response.status === 200) {
       const blob = await response.blob();
-      // console.log(response);
-      // console.log(blob);
-      //console.log(blob);
       setResume(URL.createObjectURL(blob));
-      //console.log(resume);
-      // let base64String;
-      // let reader = new FileReader();
-      // reader.readAsDataURL(blob);
-      // reader.onloadend = () => {
-      //   base64String = reader.result;
-      //   setResume(base64String.substr(base64String.indexOf(",") + 1));
-      // };
-      //console.log(resume);
     } else {
       setLoading(false);
       setNoResume(true);
@@ -215,6 +215,15 @@ function JobApplicants() {
         alignItems={"center"}
         spacing={0}
       >
+        <Snackbar open={offer} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert
+            onClose={handleCloseAlert}
+            sx={{ mb: 3, display: offer ? "" : "none" }}
+            severity="info"
+          >
+            {offer}
+          </Alert>
+        </Snackbar>
         <TableContainer component={Paper} sx={{ boxShadow: 6 }}>
           <MyTable
             sx={{ minWidth: 650 }}
