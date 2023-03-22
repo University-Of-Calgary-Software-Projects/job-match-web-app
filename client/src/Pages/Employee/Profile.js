@@ -108,20 +108,7 @@ function Profile() {
           </Avatar>
 
           <CustomTypography variant="h3">{`${data.FirstName} ${data.LastName}`}</CustomTypography>
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            spacing={2}
-            justifyContent={"space-between"}
-            width={"100%"}
-          >
-            <CustomTypography variant="h6" fontWeight={"bold"} >
-              ID
-            </CustomTypography>
-            <CustomTypography>
-              {data.ID}
-            </CustomTypography>
-          </Stack>
+          
           <Stack
             direction={"row"}
             alignItems={"center"}

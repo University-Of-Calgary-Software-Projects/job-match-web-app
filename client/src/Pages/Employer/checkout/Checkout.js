@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import { Alert, Snackbar } from '@mui/material';
 
 
 /**
@@ -47,13 +48,15 @@ const theme = createTheme();
 export default function Checkout() {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({})
+  const [errorLabel, setErrorLabel] = useState(null);
 
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorLabel(null);
+  };
 
-  /**
-   *
-   * @param step
-   * @returns {JSX.Element}
-   */
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -81,19 +84,14 @@ export default function Checkout() {
    * @returns {Promise<void>}
    */
   const submitJobPost = async () => {
-
-    /**
-     *
-     * @type {string}
-     */
     const HID = localStorage.getItem("userID");
     formData.HID = HID;
     console.log(formData);
+    if(!(formData['jobName'] && formData["duration"] && formData["salary"] && formData["description"] && formData["workingHours"] && formData["locations"] && formData["skills"])) {
+      setErrorLabel("Please fill out all required fields before submitting the form.")
+      return;
+    }
 
-    /**
-     *
-     * @type {string}
-     */
     const raw = JSON.stringify(formData);
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -118,6 +116,15 @@ export default function Checkout() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Snackbar open={errorLabel} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert
+            onClose={handleCloseAlert}
+            severity="error"
+            sx={{ mb: 3, display: errorLabel ? "" : "none" }}
+          >
+            {errorLabel}
+          </Alert>
+        </Snackbar>
       <Container component="main" maxWidth="600px" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }}}>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>

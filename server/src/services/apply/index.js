@@ -23,7 +23,13 @@ router.post("/", upload.single('resumeData'), async (req, res) => {
 		let resumeData = req.file;
 		let { JID, JSID, YOF, additionalInfo } = req.body;
 		const date = getCurrentDate();
+		let buffer;
 
+		if(resumeData) {
+			buffer = resumeData.buffer;
+		} else {
+			buffer = null;
+		}
 		
 		let sql = `
 	  INSERT INTO application
@@ -36,7 +42,7 @@ router.post("/", upload.single('resumeData'), async (req, res) => {
 			JID,
 			additionalInfo,
 			date,
-			resumeData.buffer
+			buffer
 		);
 		console.log(result);
 		return res.status(200).json({ msg: "successfully added application" });

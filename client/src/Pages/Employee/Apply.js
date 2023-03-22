@@ -86,23 +86,6 @@ function Apply() {
     setAdditionalInfo(event.target.value);
   };
 
-  const extractBlob = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const blob = new Blob([event.target.result], { type: file.type });
-        resolve(blob);
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
   const handlePdfUpload = (event) => {
     const file = event.target.files[0];
     console.log(file.name);

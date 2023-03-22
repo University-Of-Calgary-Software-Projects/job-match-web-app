@@ -17,6 +17,7 @@ import {
   FormHelperText,
   Select,
   Alert,
+  Snackbar,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
@@ -59,12 +60,11 @@ const theme = createTheme();
  * @constructor
  */
 export default function SignUp() {
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [skills, setSkills] = useState([]);
-  const [role, setRole] = useState("");
-  const [errorLabel, setErrorLabel] = useState(false);
+  const [role, setRole] = useState(null);
+  const [errorLabel, setErrorLabel] = useState(null);
   const history = useHistory();
 
   /**
@@ -109,6 +109,37 @@ export default function SignUp() {
             businessName: data.get("businessName"),
             businessIndustry: data.get("businessIndustry"),
           };
+    if (
+      !(
+        role === "jobseeker" &&
+        formInput["firstName"] &&
+        formInput["lastName"] &&
+        formInput["email"] &&
+        formInput["username"] &&
+        formInput["password"] &&
+        formInput["role"] &&
+        formInput["phoneNumber"] &&
+        formInput["location"]
+      )
+    ) {
+      setErrorLabel("Please fill out all required fields before submitting the form.")
+      return;
+    } else if (
+      !(
+        role === "hiringManager" &&
+        formInput["firstName"] &&
+        formInput["lastName"] &&
+        formInput["email"] &&
+        formInput["username"] &&
+        formInput["password"] &&
+        formInput["role"] &&
+        formInput["businessName"] &&
+        formInput["businessIndustry"]
+      )
+    ) {
+      setErrorLabel("Please fill out all required fields before submitting the form.")
+      return;
+    }
 
     localStorage.setItem("role", formInput.role);
     const raw = JSON.stringify(formInput);
@@ -136,7 +167,7 @@ export default function SignUp() {
       localStorage.setItem("userID", result.userID);
       history.push("/login");
     } else {
-      setErrorLabel(true);
+      setErrorLabel("Username or Email already exist use different username and/or email");
     }
   };
 
@@ -158,6 +189,13 @@ export default function SignUp() {
     setRole(event.target.value);
   };
 
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorLabel(null);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -170,9 +208,18 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Alert severity="error" sx={{ display: errorLabel ? "" : "none" }}>
+          {/* <Alert severity="error" sx={{ display: errorLabel ? "" : "none" }}>
             Username or Email already exist use different username and/or email
+          </Alert> */}
+          <Snackbar open={errorLabel} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert
+            onClose={handleCloseAlert}
+            severity="error"
+            sx={{ mb: 3, display: errorLabel ? "" : "none" }}
+          >
+            {errorLabel}
           </Alert>
+        </Snackbar>
           <Avatar
             sx={{
               m: 1,
@@ -205,7 +252,7 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   onChange={(e) => setFirstName(e.target.value)}
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
 
@@ -218,7 +265,7 @@ export default function SignUp() {
                   name="lastName"
                   autoComplete="family-name"
                   onChange={(e) => setLastName(e.target.value)}
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -229,7 +276,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -240,7 +287,7 @@ export default function SignUp() {
                   label="Username"
                   name="username"
                   autoComplete="username"
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -252,7 +299,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -267,7 +314,7 @@ export default function SignUp() {
                     label="Role"
                     onChange={handleChange}
                     name="role"
-                    onFocus={() => setErrorLabel(false)}
+                    onFocus={() => setErrorLabel(null)}
                   >
                     <MenuItem id="jobSeeker" value={"jobSeeker"}>
                       Job Seeker
@@ -297,7 +344,7 @@ export default function SignUp() {
                   id="businessName"
                   label="Business Name"
                   autoFocus
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
 
@@ -315,7 +362,7 @@ export default function SignUp() {
                   id="businessIndustry"
                   label="Business Industry"
                   name="businessIndustry"
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid
@@ -333,7 +380,7 @@ export default function SignUp() {
                   id="phoneNumber"
                   label="Phone Number"
                   autoFocus
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
 
@@ -352,7 +399,7 @@ export default function SignUp() {
                   label="Location"
                   name="location"
                   autoComplete="location"
-                  onFocus={() => setErrorLabel(false)}
+                  onFocus={() => setErrorLabel(null)}
                 />
               </Grid>
               <Grid
