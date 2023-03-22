@@ -31,7 +31,8 @@ router.get("/:role/:id", async (req, res) => {
 				.status(400)
 				.json({ error: "User ID provided is not available" });
 		}
-		return res.status(200).json({ results: queryResult[0] });
+		console.log(queryResult.skills);
+		return res.status(200).json({ results: queryResult[0], skills: queryResult.skills });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ error: "Server Error" });
@@ -54,31 +55,28 @@ function queryJobSeeker(id) {
   `;
 
 	let stmt = db.prepare(sql);
-	const result = stmt.all(id);
-	return result;
-}
+	let result1 = stmt.all(id);
 
-router.post("/view-skills", async (req, res) => {
-	let sql = null; // for sql statements
-	let JSID = req.body;
-	//sql query
 	sql = `
-    SELECT S.skillName, S.ID
+    SELECT S.skillName as label, S.ID as key
     FROM skills AS S, has_skill as HS
     WHERE HS.JSID = ? AND HS.SID = S.ID
   `;
 
-	let stmt = db.prepare(sql);
-	const result = stmt.all(JSID);
-	return result;
-});
+	stmt = db.prepare(sql);
+	const result2 = stmt.all(id);
+	//result1[skills] = result2;
+	Object.assign(result1, {'skills': result2})
+	//const result = result1 + result2
+	return result1;
+}
 
 router.post("/update-skills", async (req, res) => {
 	try {
 		const { JSID, skillsArray } = req.body;
 
 		let sql1 = `
-			DELETE has_skill WHERE JSID = ? 
+			DELETE FROM has_skill WHERE JSID = ? 
 	  	`;
 		
 		let stmt1 = db.prepare(sql1);
@@ -110,7 +108,7 @@ router.post("/update-skills", async (req, res) => {
 				VALUES (?,?)
 				`;
 					stmt = db.prepare(sql);
-					stmt.run(skillID, jobSeekerID);
+					stmt.run(skillID, JSID);
 				} else {
 					const skillID = result[0].ID;
 					sql = `
@@ -118,7 +116,7 @@ router.post("/update-skills", async (req, res) => {
 				VALUES (?,?)
 				`;
 					stmt = db.prepare(sql);
-					stmt.run(skillID, jobSeekerID);
+					stmt.run(skillID, JSID);
 				}
 			} catch (error) {
 				console.log(error);

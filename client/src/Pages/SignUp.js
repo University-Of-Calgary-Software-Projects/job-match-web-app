@@ -66,6 +66,7 @@ export default function SignUp() {
   const [role, setRole] = useState(null);
   const [errorLabel, setErrorLabel] = useState(null);
   const history = useHistory();
+  
 
   /**
    *

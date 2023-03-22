@@ -55,7 +55,7 @@ export default function AddressForm({ formData }) {
               }}
               onBlur={(e) => handleSubmit(e.target.name, e.target.value)}
             />
-            <FormHelperText>{"How long will your work take (in weeks)?"}</FormHelperText>
+            <FormHelperText>{"What is the length of the work term (in months)?"}</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
