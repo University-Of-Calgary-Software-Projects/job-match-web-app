@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
 			"pending",
 			Salary,
 			JSID,
-			JID,
+			HID,
 		);
 		console.log(result2);
 		return res.status(200).json({ msg: "successfully created offer" });
