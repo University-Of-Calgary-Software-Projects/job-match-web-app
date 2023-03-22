@@ -59,10 +59,10 @@ router.post("/update-status-job-seeker", async (req, res) => {
 		   STATUS, JSID, JID
 		);
 		console.log(result2);
-		return res.status(200).json({ msg: "successfully created offer" });
+		return res.status(200).json({ msg: "successfully updated offer status" });
 	} catch (error) {
 		console.log(error);
-		return res.status(400).json({ error: "could not create offer" });
+		return res.status(400).json({ error: "could not update offer status" });
 	}
 	
 });
@@ -80,10 +80,10 @@ router.post("/update-status-hiring-manager", async (req, res) => {
 		   STATUS, JSID, JID
 		);
 		console.log(result2);
-		return res.status(200).json({ msg: "successfully created offer" });
+		return res.status(200).json({ msg: "successfully updated offer status" });
 	} catch (error) {
 		console.log(error);
-		return res.status(400).json({ error: "could not create offer" });
+		return res.status(400).json({ error: "could not update offer status" });
 	}
 	
 });

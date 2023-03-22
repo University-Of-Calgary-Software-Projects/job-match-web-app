@@ -58,6 +58,80 @@ function queryJobSeeker(id) {
 	return result;
 }
 
+router.post("/view-skills", async (req, res) => {
+	let sql = null; // for sql statements
+	let JSID = req.body;
+	//sql query
+	sql = `
+    SELECT S.skillName, S.ID
+    FROM skills AS S, has_skill as HS
+    WHERE HS.JSID = ? AND HS.SID = S.ID
+  `;
+
+	let stmt = db.prepare(sql);
+	const result = stmt.all(JSID);
+	return result;
+});
+
+router.post("/update-skills", async (req, res) => {
+	try {
+		const { JSID, skillsArray } = req.body;
+
+		let sql1 = `
+			DELETE has_skill WHERE JSID = ? 
+	  	`;
+		
+		let stmt1 = db.prepare(sql1);
+		stmt1.run(
+		   JSID
+		);
+		
+		skillsArray.map((skill) => {
+			skill = skill.charAt(0).toUpperCase() + skill.slice(1);
+			try {
+				sql = `
+			  SELECT *
+			  FROM skills
+			  WHERE skillName=?
+			  `;
+				stmt = db.prepare(sql);
+				const result = stmt.all(skill);
+				if (result.length === 0) {
+					const skillID = uuid();
+					sql = `
+				  INSERT INTO skills
+				  VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					const result = stmt.run(skillID, skill);
+					console.log(result);
+					sql = `
+				INSERT INTO has_skill
+				VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					stmt.run(skillID, jobSeekerID);
+				} else {
+					const skillID = result[0].ID;
+					sql = `
+				INSERT INTO has_skill
+				VALUES (?,?)
+				`;
+					stmt = db.prepare(sql);
+					stmt.run(skillID, jobSeekerID);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
+		return res.status(200).json({ msg: "successfully updated skills" });
+	} catch (error) {
+		console.log(error);
+		return res.status(400).json({ error: "could not update skills" });
+	}
+});
+
 /**
  * perform sql query to get the profile details of the hiring manager and
  * the company details, the hiring manager works for
