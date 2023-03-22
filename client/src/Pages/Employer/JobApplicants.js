@@ -8,16 +8,26 @@ import {
   TableHead,
   TableRow,
   Fade,
-  Backdrop
+  Backdrop,
+  Typography,
+  Divider,
+  CircularProgress,
+  LinearProgress,
+  Stack,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import styled from "@emotion/styled";
 import { JobApplicantsHeaders } from "./JobApplicantsHeaders";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useLocation } from "react-router-dom";
 import Modal from "@mui/material/Modal";
+import { Document, Page, pdfjs } from "react-pdf";
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import PriorityHighRoundedIcon from "@mui/icons-material/PriorityHighRounded";
+import Icon from "@mui/material/Icon";
 
 /**
  *
@@ -70,8 +80,22 @@ function JobApplicants() {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
-  useEffect(() => {
+  const [resume, setResume] = useState(null);
+  const [numPages, setNumPages] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [noResume, setNoResume] = useState(false);
 
+  const pdfContainerStyle = {
+    maxHeight: "80vh", // Change the percentage value according to your needs
+    overflowY: "auto",
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+    setLoading(false);
+  };
+
+  useEffect(() => {
     /**
      *
      * @returns {Promise<void>}
@@ -101,13 +125,13 @@ function JobApplicants() {
     fetchData();
   }, []);
 
-  const handleSendOffer = async ({JSID}) => {
+  const handleSendOffer = async ({ JSID }) => {
     console.log(JSID);
 
     const raw = JSON.stringify({
       HID: localStorage.getItem("userID"),
       JSID: JSID,
-      JID: localStorage.getItem("jobID")
+      JID: localStorage.getItem("jobID"),
     });
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -119,19 +143,63 @@ function JobApplicants() {
       redirect: "follow",
     };
 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/offers/create`, requestOptions);
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/offers/create`,
+      requestOptions
+    );
 
     if (response.status === 200) {
       const result = await response.json();
     }
-  }
+  };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async ({ JSID }) => {
     setModal(true);
+    const raw = JSON.stringify({
+      JSID: JSID,
+      JID: localStorage.getItem("jobID"),
+    });
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      url: `${process.env.REACT_APP_API_URL}/apply/view-resume`,
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/apply/view-resume`,
+      requestOptions
+    );
+
+    if (response.status === 200) {
+      const blob = await response.blob();
+      // console.log(response);
+      // console.log(blob);
+      //console.log(blob);
+      setResume(URL.createObjectURL(blob));
+      //console.log(resume);
+      // let base64String;
+      // let reader = new FileReader();
+      // reader.readAsDataURL(blob);
+      // reader.onloadend = () => {
+      //   base64String = reader.result;
+      //   setResume(base64String.substr(base64String.indexOf(",") + 1));
+      // };
+      //console.log(resume);
+    } else {
+      setLoading(false);
+      setNoResume(true);
+    }
   };
 
   const handleCloseMModal = () => {
     setModal(false);
+    setResume(null);
+    setLoading(true);
+    setNoResume(false);
   };
 
   return (
@@ -172,9 +240,9 @@ function JobApplicants() {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {JobApplicantsHeaders.map((column) => {
                       const value = row[column.accessor];
-                      if(column.accessor === "sendOffer") {
+                      if (column.accessor === "sendOffer") {
                         return (
-                          <TableCell key={column.accessor}>
+                          <TableCell key={column.accessor} align="center"> 
                             <IconButton
                               aria-label="delete"
                               size="small"
@@ -198,7 +266,7 @@ function JobApplicants() {
                             <IconButton
                               aria-label="delete"
                               size="small"
-                              onClick={handleOpenModal}
+                              onClick={() => handleOpenModal(data[index])}
                               sx={{
                                 transition: "0.3s",
                                 "&:hover": {
@@ -232,7 +300,7 @@ function JobApplicants() {
         onClose={handleCloseMModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{backdropFilter: "blur(4px)" }}
+        sx={{ backdropFilter: "blur(4px)" }}
         disableAutoFocus
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
@@ -242,17 +310,52 @@ function JobApplicants() {
           },
         }}
       >
-        <CustomBox sx={{ p: 1.5, boxShadow: 19 }}>
-          <iframe
-            src="https://msnlabs.com/img/resume-sample.pdf#toolbar=0"
-            width="100%"
-            height="100%"
-            style={{
-              border: 'none',
-              margin: '0',
-              padding: '0',
-            }}
-          ></iframe>
+        <CustomBox sx={{ p: 1.5, boxShadow: 19, overflowY: "scroll" }}>
+          {noResume && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+            >
+              <Stack direction={"column"} alignItems="center">
+                <PriorityHighRoundedIcon
+                  color="error"
+                  sx={{ height: "65px", width: "65px" }}
+                />
+                <Typography>Applicant did not submit resume</Typography>
+              </Stack>
+            </Box>
+          )}
+          {loading && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          {resume && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Document file={resume} onLoadSuccess={onDocumentLoadSuccess}>
+                {Array.from(new Array(numPages), (el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    renderTextLayer={false}
+                  >
+                    <Divider />
+                  </Page>
+                ))}
+              </Document>
+            </Box>
+          )}
         </CustomBox>
       </Modal>
     </>
