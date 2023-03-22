@@ -4,6 +4,8 @@ const Database = require("better-sqlite3");
 const { uuid } = require("../../utils/GenerateID");
 const { getCurrentDate } = require("../../utils/Date");
 const db = new Database("jobmatch.db", { verbose: console.log });
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 /**
  * apply to a job post
@@ -16,11 +18,13 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  * @returns {object} - returns successful message if application added, else return
  * error msg
  */
-router.post("/", async (req, res) => {
+router.post("/", upload.single('resumeData'), async (req, res) => {
 	try {
-		const { JID, JSID, YOF, additionalInfo, resumeData } = req.body;
+		let resumeData = req.file;
+		let { JID, JSID, YOF, additionalInfo } = req.body;
 		const date = getCurrentDate();
 
+		
 		let sql = `
 	  INSERT INTO application
 	  VALUES (?, ?, ?, ?, ?, ?)
@@ -32,7 +36,7 @@ router.post("/", async (req, res) => {
 			JID,
 			additionalInfo,
 			date,
-			resumeData
+			resumeData.buffer
 		);
 		console.log(result);
 		return res.status(200).json({ msg: "successfully added application" });
@@ -68,22 +72,28 @@ router.get("/:id/applications", async (req, res) => {
 });
 
 
-router.get("/view-resume", async (req, res) => {
-	try {
-		const { JSID, JID  } = req.body;
-		let sql = `
-		SELECT a.pdf_data
-		FROM application AS a 
-		WHERE a.JSID= ? AND a.JID= ?
-		`;
-		let stmt = db.prepare(sql);
-		const result = stmt.all(JSID, JID );
+router.post("/view-resume", async (req, res) => {
+  try {
+    const { JSID, JID } = req.body;
+    let sql = `
+    SELECT a.pdf_data
+    FROM application AS a 
+    WHERE a.JSID= ? AND a.JID= ?
+    `;
+    let stmt = db.prepare(sql);
+    const result = stmt.get(JSID, JID);
 
-		return res.status(200).json({ results: result });
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ error: "Server Error" });
-	}
+    if (result && result.pdf_data) {
+      res.setHeader("Content-Type", "application/pdf");
+      res.status(200).send(result.pdf_data);
+    } else {
+      return res.status(404).json({ error: "PDF not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server Error" });
+  }
 });
+
 
 module.exports = { ApplyService: router };
