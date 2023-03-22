@@ -1,11 +1,11 @@
 import { Alert, IconButton, Paper } from "@mui/material";
-import axios from 'axios';
 import { Stack } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
 import {
   FormControl,
@@ -51,10 +51,10 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 function Apply() {
-  const [errorLabel, setErrorLabel] = useState(false);
+  const [errorLabel, setErrorLabel] = useState(null);
   const location = useLocation();
   const history = useHistory();
-  const [YOF, setYOF] = useState("");
+  const [YOF, setYOF] = useState(null);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
   const [pdfBlob, setPdfBlob] = useState(null);
@@ -93,7 +93,6 @@ function Apply() {
       reader.onload = (event) => {
         const blob = new Blob([event.target.result], { type: file.type });
         resolve(blob);
-
       };
 
       reader.onerror = (error) => {
@@ -114,29 +113,44 @@ function Apply() {
     setYOF(event.target.value);
   };
 
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorLabel(null);
+  };
+
   const handleSubmit = async (e) => {
+    if (!YOF) {
+      setErrorLabel(
+        "Please fill out all required fields before submitting the form."
+      );
+      return;
+    }
     e.preventDefault();
     const formData = new FormData();
-    formData.append('resumeData', file);
-    formData.append('JID', location.state.detail.id);
-    formData.append('JSID', localStorage.getItem("userID"));
-    formData.append('YOF', YOF);
-    formData.append('additionalInfo', additionalInfo);
-
-
+    formData.append("resumeData", file);
+    formData.append("JID", location.state.detail.id);
+    formData.append("JSID", localStorage.getItem("userID"));
+    formData.append("YOF", YOF);
+    formData.append("additionalInfo", additionalInfo);
     try {
-      const response = await fetch('http://localhost:3000/apply', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/apply", {
+        method: "POST",
         body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
+        history.push('/applications')
       } else {
-        console.error('Error uploading file');
+        setErrorLabel(
+          "Error in the application, you cannot apply to the application twice"
+        );
+        console.error("Error uploading file");
       }
     } catch (error) {
-      console.error('Error uploading file', error);
+      console.error("Error uploading file", error);
     }
   };
 
@@ -153,12 +167,16 @@ function Apply() {
       spacing={0}
     >
       <Box pl={15} pr={15}>
-        <Alert
-          severity="error"
-          sx={{ mb: 3, display: errorLabel ? "" : "none" }}
-        >
-          Error in the application, you cannot apply to the application twice
-        </Alert>
+        <Snackbar open={errorLabel} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert
+            onClose={handleCloseAlert}
+            severity="error"
+            sx={{ mb: 3, display: errorLabel ? "" : "none" }}
+          >
+            {errorLabel}
+          </Alert>
+        </Snackbar>
+
         <Typography variant="h5">SUBMIT YOUR APPLICATION</Typography>
         <Box
           component="form"
@@ -169,7 +187,7 @@ function Apply() {
 
           justifyContent="center"
           alignItems={"center"}
-          onFocus={() => setErrorLabel(false)}
+          onFocus={() => setErrorLabel(null)}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -305,16 +323,6 @@ function Apply() {
                   industry
                 </FormHelperText>
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextField
-                required
-                fullWidth
-                id="resumeUrl"
-                label="Resume URL"
-                name="resumeUrl"
-                inputProps={{ autoComplete: "off" }}
-              />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5" p={1}>
