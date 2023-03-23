@@ -40,3 +40,5 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
     return res.status(400).send('No file uploaded');
   }
 })
+
+module.exports = app;
