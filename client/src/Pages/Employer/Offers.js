@@ -1,11 +1,15 @@
 import {
+  FormControl,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
@@ -45,6 +49,36 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
 function Offers() {
   const [data, setData] = useState([]);
 
+  const handleSelectChange = async (value, index) => {
+    const userID = localStorage.getItem("userID");
+    console.log(`${value} for ${index}. ID is ${data[index].HID}`);
+    let newData = [...data];
+    newData[index].clientstatus = value;
+    setData(newData);
+    const formInput = {
+      HID : userID,
+      STATUS : value,
+      JSID : data[index].JSID
+    }
+    const raw = JSON.stringify(formInput);
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      url: `${process.env.REACT_APP_API_URL}/offers/update-status-hiring-manager`,
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/offers/update-status-hiring-manager`,
+      requestOptions
+    );
+
+  };
+
   useEffect(() => {
 
     /**
@@ -63,6 +97,7 @@ function Offers() {
       if (response.status === 200) {
         const responseData = await response.json() 
         setData(responseData.results)
+        console.log(responseData.results)
       }
   }
 
@@ -96,7 +131,7 @@ function Offers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => {
+            {data.map((row, index) => {
               return (
                 <TableRow
                   hover
@@ -112,17 +147,52 @@ function Offers() {
                 >
                   {OffersHeaders.map((column) => {
                     const value = row[column.accessor];
-                    return (
-                      <TableCell
-                        key={column.accessor}
-                        align="center" 
-                        sx={column.accessor === "DatePosted" ? {width: "10%"} : null}
-                      >
-                        {column.format && typeof value === "number"
-                          ? column.format(value)
-                          : value}
-                      </TableCell>
-                    );
+                    if (column.accessor === "clientstatus") {
+                      return (
+                        <TableCell key={column.accessor} align="center">
+                          <FormControl
+                            sx={{ m: 0.5, minWidth: 100,maxWidth: 100 }}
+                            size="small"
+                          >
+                            <Select
+                              labelId="freelancer-status"
+                              id="freelancer-status"
+                              value={value}
+                              onChange={(event) => {
+                                handleSelectChange(event.target.value, index)
+                              }}
+                              autoWidth
+                            >
+                              <MenuItem value={"rejected"}>
+                                <Typography variant="body2">
+                                  rejected
+                                </Typography>
+                              </MenuItem>
+
+                              <MenuItem value={"agreed"}>
+                                <Typography variant="body2">
+                                  agreed
+                                </Typography>
+                              </MenuItem>
+
+                              <MenuItem value={"pending"}>
+                                <Typography variant="body2">
+                                  pending
+                                </Typography>
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell key={column.accessor} align="center">
+                          {column.format && typeof value === "number"
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    }
                   })}
                 </TableRow>
               );

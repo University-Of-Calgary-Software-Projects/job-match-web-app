@@ -29,9 +29,9 @@ app.use("/search", SearchService);
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// app.listen(3000, () => {
-// 	console.log("Server is running on port 3000");
-// });
+app.listen(3000, () => {
+	console.log("Server is running on port 3000");
+});
 
 app.post('/upload', upload.single('pdf'), (req, res) => {
 	const file = req.file;

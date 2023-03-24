@@ -59,21 +59,11 @@ function Profile() {
   const history = useHistory();
   const [data, setData] = useState({});
   const [name, setName] = useState("");
-  const [chipData, setChipData] = useState([
-    { key: 0, label: "Angular" },
-    { key: 1, label: "jQuery" },
-    { key: 2, label: "Polymer" },
-    { key: 3, label: "React" },
-    { key: 4, label: "Vue.js" },
-  ]);
   const [selectedValues, setSelectedValues] = useState([]);
 
   const handleValueChange = async (event, newValue) => {
     setSelectedValues(newValue);
     const userID = localStorage.getItem("userID");
-    // const formData = new FormData();
-    // formData.append("JSID", userID);
-    // formData.append("skillsArray", newValue)
 
     const formInput = {
       JSID: userID,
@@ -119,12 +109,14 @@ function Profile() {
       );
       if (response.status === 200) {
         const responseData = await response.json();
-        setData(responseData.results);
         setName(
           `${responseData.results.FirstName} ${responseData.results.LastName}`
         );
-        console.log(responseData);
-        setChipData(responseData.skills);
+        setData(responseData.results);
+        console.log(responseData)
+        const labelsArray = responseData.skills.map((obj) => obj.label);
+        console.log(labelsArray);
+        setSelectedValues(labelsArray);
       }
 
       requestOptions = {
@@ -135,6 +127,7 @@ function Profile() {
     };
 
     fetchData();
+    console.log(selectedValues);
   }, []);
 
   const handleLogout = () => {
@@ -143,11 +136,11 @@ function Profile() {
     history.push("./login");
   };
 
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) =>
-      chips.filter((chip) => chip.key !== chipToDelete.key)
-    );
-  };
+  // const handleDelete = (chipToDelete) => () => {
+  //   setChipData((chips) =>
+  //     chips.filter((chip) => chip.key !== chipToDelete.key)
+  //   );
+  // };
 
   return (
     <Stack
@@ -326,13 +319,12 @@ function Profile() {
             </Tooltip>
           </Stack>
         </Stack>
-        
       </CustomBox>
       <Autocomplete
         sx={{
           minWidth: "450px",
           maxWidth: "500px",
-        }}      
+        }}
         multiple
         id="tags-filled"
         options={[]}
@@ -348,15 +340,11 @@ function Profile() {
             />
           ))
         }
-        renderInput={(params) => (
-          <TextField {...params}  placeholder="skills" />
-        )}
+        renderInput={(params) => <TextField {...params} placeholder="skills" />}
       />
       <FormHelperText>
         Add/remove your skills to reflect your recent work experience
       </FormHelperText>
-
-      
     </Stack>
   );
 }

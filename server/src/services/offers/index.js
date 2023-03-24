@@ -47,16 +47,15 @@ router.post("/create", async (req, res) => {
 
 router.post("/update-status-job-seeker", async (req, res) => {
 	try {
-		const { JSID, STATUS, JID } = req.body;
+		const { JSID, STATUS, HID } = req.body;
 
 		let sql1 = `
-			UPDATE offer SET JobSeekerStatus = ? WHERE JSID = ? AND JID = ?
-			
+			UPDATE offer SET JobSeekerStatus = ? WHERE JSID = ? AND HID = ?
 	  	`;
 		
 		let stmt1 = db.prepare(sql1);
 		const result2 = stmt1.run(
-		   STATUS, JSID, JID
+		   STATUS, JSID, HID
 		);
 		console.log(result2);
 		return res.status(200).json({ msg: "successfully updated offer status" });
@@ -69,15 +68,15 @@ router.post("/update-status-job-seeker", async (req, res) => {
 
 router.post("/update-status-hiring-manager", async (req, res) => {
 	try {
-		const { JSID, STATUS, JID } = req.body;
+		const { JSID, STATUS, HID } = req.body;
 
 		let sql1 = `
-			UPDATE offer SET ClientStatus = ? WHERE JSID = ? AND JID = ?
+			UPDATE offer SET ClientStatus = ? WHERE JSID = ? AND HID = ?
 	  	`;
 		
 		let stmt1 = db.prepare(sql1);
 		const result2 = stmt1.run(
-		   STATUS, JSID, JID
+		   STATUS, JSID, HID
 		);
 		console.log(result2);
 		return res.status(200).json({ msg: "successfully updated offer status" });
@@ -140,7 +139,7 @@ function queryHiringManager(id) {
 
 	//sql query
 	sql = `
-  SELECT f.FirstName || ' ' || f.LastName AS name,
+  SELECT f.FirstName || ' ' || f.LastName AS name, o.JSID,
   o.ClientStatus AS clientstatus, o.JobSeekerStatus AS jobSeekerstatus, 
   o.Salary AS salary, f.PhoneNo, f.Email AS email
   FROM offer AS o, job_seeker AS f
