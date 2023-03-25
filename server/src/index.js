@@ -16,7 +16,7 @@ const {
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({ origin: [AccessControlAllowOrigin, 'http://159.203.34.253/'] }));
 
 app.use("/login", LoginService);
 app.use("/register", RegisterService);
