@@ -10,9 +10,8 @@ const {
 	OffersService,
 	ProfileService,
 	SearchService,
-	
 } = require("./services");
-
+const { PORT, AccessControlAllowOrigin } = require("./config/");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
