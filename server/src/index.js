@@ -16,7 +16,7 @@ const { PORT, AccessControlAllowOrigin } = require("./config/");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: [AccessControlAllowOrigin, 'http://159.203.34.253/'] }));
+app.use(cors({ origin: '*' }));
 
 app.use("/login", LoginService);
 app.use("/register", RegisterService);
