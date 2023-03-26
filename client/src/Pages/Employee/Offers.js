@@ -49,11 +49,33 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
 function Offers() {
   const [data, setData] = useState([]);
   
-  const handleSelectChange = (value, index) => {
-    console.log(`${value} for ${index}. ID is ${data[0].HID}`);
+  const handleSelectChange = async (value, index) => {
+    const userID = localStorage.getItem("userID");
+    console.log(`${value} for ${index}. ID is ${data[index].HID}`);
     let newData = [...data];
     newData[index].JobSeekerStatus = value;
     setData(newData);
+    const formInput = {
+      JSID : userID,
+      STATUS : value,
+      HID : data[index].HID
+    }
+    const raw = JSON.stringify(formInput);
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      url: `${process.env.REACT_APP_API_URL}/offers/update-status-job-seeker`,
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/offers/update-status-job-seeker`,
+      requestOptions
+    );
   };
 
   useEffect(() => {
@@ -72,6 +94,7 @@ function Offers() {
       if (response.status === 200) {
         const responseData = await response.json();
         setData(responseData.results);
+        console.log(responseData.results);
       }
     };
 
@@ -144,9 +167,9 @@ function Offers() {
                                 </Typography>
                               </MenuItem>
 
-                              <MenuItem value={"accepted"}>
+                              <MenuItem value={"agreed"}>
                                 <Typography variant="body2">
-                                  accepted
+                                  agreed
                                 </Typography>
                               </MenuItem>
 

@@ -118,7 +118,7 @@ function Apply() {
     formData.append("YOF", YOF);
     formData.append("additionalInfo", additionalInfo);
     try {
-      const response = await fetch("http://localhost:3000/apply", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/apply`, {
         method: "POST",
         body: formData,
       });

@@ -40,7 +40,7 @@ function JobSearch() {
   const history = useHistory();
 
   const handleChange = (query) => {
-    const apiUrl = "http://localhost:3000/search";
+    const apiUrl = `${process.env.REACT_APP_API_URL}/search`;
     const raw = JSON.stringify({
       searchTerm: `${query}`,
     });

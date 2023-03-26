@@ -31,7 +31,6 @@ router.get("/:role/:id", async (req, res) => {
 				.status(400)
 				.json({ error: "User ID provided is not available" });
 		}
-		console.log(queryResult.skills);
 		return res.status(200).json({ results: queryResult[0], skills: queryResult.skills });
 	} catch (error) {
 		console.log(error);
@@ -58,16 +57,14 @@ function queryJobSeeker(id) {
 	let result1 = stmt.all(id);
 
 	sql = `
-    SELECT S.skillName as label, S.ID as key
+    SELECT S.skillName as label
     FROM skills AS S, has_skill as HS
     WHERE HS.JSID = ? AND HS.SID = S.ID
   `;
 
 	stmt = db.prepare(sql);
 	const result2 = stmt.all(id);
-	//result1[skills] = result2;
 	Object.assign(result1, {'skills': result2})
-	//const result = result1 + result2
 	return result1;
 }
 
