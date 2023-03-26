@@ -10,6 +10,7 @@ const {
 	OffersService,
 	ProfileService,
 	SearchService,
+	Test
 } = require("./services");
 const { PORT, AccessControlAllowOrigin } = require("./config/");
 const app = express();
@@ -24,6 +25,7 @@ app.use("/apply", ApplyService);
 app.use("/offers", OffersService);
 app.use("/profile", ProfileService);
 app.use("/search", SearchService);
+app.use("/test", Test);
 
 
 const upload = multer({ storage: multer.memoryStorage() });

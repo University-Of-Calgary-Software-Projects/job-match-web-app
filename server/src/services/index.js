@@ -1,4 +1,5 @@
 module.exports = {
+	...require("./test"),
 	...require("./login"),
 	...require("./register"),
 	...require("./job-posts"),
