@@ -7,7 +7,7 @@ Job Match is a web application that helps job seekers find the right job for the
 ## Technologies
 
 - NodeJS and ReactJS for the back-end and front-end, respectively
-- MySQL for the database
+- SQLite for the database
 ## Prerequisites
 
 
