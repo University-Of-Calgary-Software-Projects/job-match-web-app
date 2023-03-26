@@ -4,7 +4,6 @@ import { Stack } from "@mui/system";
 import { Avatar, IconButton, Tooltip, Typography } from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import CreateIcon from "@mui/icons-material/Create";
 import LogoutIcon from '@mui/icons-material/Logout';
 import styled from "@emotion/styled";

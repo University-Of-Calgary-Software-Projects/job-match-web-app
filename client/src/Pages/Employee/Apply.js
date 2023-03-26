@@ -57,7 +57,6 @@ function Apply() {
   const [YOF, setYOF] = useState(null);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
-  const [pdfBlob, setPdfBlob] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
 
   useEffect(() => {
@@ -124,7 +123,6 @@ function Apply() {
       });
 
       if (response.ok) {
-        const data = await response.json();
         history.push('/applications')
       } else {
         setErrorLabel(

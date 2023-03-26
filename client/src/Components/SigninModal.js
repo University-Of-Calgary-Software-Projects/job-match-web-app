@@ -29,8 +29,6 @@ const CustomBox = styled(Box)(({ theme }) => ({
 export default function SignInModal() {
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   /**
    *

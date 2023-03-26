@@ -7,12 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Fade,
   Backdrop,
   Typography,
   Divider,
   CircularProgress,
-  LinearProgress,
   Stack,
   Snackbar,
   Alert,
@@ -23,13 +21,10 @@ import styled from "@emotion/styled";
 import { JobApplicantsHeaders } from "./JobApplicantsHeaders";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { useLocation } from "react-router-dom";
 import Modal from "@mui/material/Modal";
-import { Document, Page, pdfjs } from "react-pdf";
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import { Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import PriorityHighRoundedIcon from "@mui/icons-material/PriorityHighRounded";
-import Icon from "@mui/material/Icon";
 
 /**
  *
@@ -79,7 +74,6 @@ const CustomBox = styled(Box)(({ theme }) => ({
  * @constructor
  */
 function JobApplicants() {
-  const location = useLocation();
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
   const [resume, setResume] = useState(null);
@@ -88,14 +82,9 @@ function JobApplicants() {
   const [noResume, setNoResume] = useState(false);
   const [offer, setOffer] = useState(null);
 
-  const pdfContainerStyle = {
-    maxHeight: "80vh", // Change the percentage value according to your needs
-    overflowY: "auto",
-  };
-
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
-    setLoading(false);
+    
   };
 
   useEffect(() => {
@@ -152,7 +141,6 @@ function JobApplicants() {
     );
 
     if (response.status === 200) {
-      const result = await response.json();
       setOffer('Offer Sent: An email has been sent to the applicant with the offer details.')
     } else {
       setOffer('Could not send offer, please try again at another time')
@@ -352,12 +340,14 @@ function JobApplicants() {
               justifyContent="center"
               alignItems="center"
             >
-              <Document file={resume} onLoadSuccess={onDocumentLoadSuccess}>
+              <Document file={resume} onLoadSuccess={onDocumentLoadSuccess} loading={null}>
                 {Array.from(new Array(numPages), (el, index) => (
                   <Page
                     key={`page_${index + 1}`}
                     pageNumber={index + 1}
                     renderTextLayer={false}
+                    onLoadSuccess={() => {setLoading(false)}}
+                    loading={null}
                   >
                     <Divider />
                   </Page>

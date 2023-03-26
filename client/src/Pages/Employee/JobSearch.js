@@ -1,19 +1,14 @@
-import { Grow, Tooltip, Typography } from "@mui/material";
-import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
+import {Tooltip, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/system";
 import Slide from "@mui/material/Slide";
-import Fade from "@mui/material/Fade";
-import Autocomplete from "@mui/material/Autocomplete";
 import Divider from "@mui/material/Divider";
 import { useHistory } from "react-router-dom";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import DirectionsIcon from "@mui/icons-material/Directions";
-import { blueGrey, red } from "@mui/material/colors";
 import styled from "@emotion/styled";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 
@@ -35,7 +30,6 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
  * @constructor
  */
 function JobSearch() {
-  //const [show, setShow] = useState(true);
   const [queryResults, setQueryResults] = useState([]);
   const history = useHistory();
 
