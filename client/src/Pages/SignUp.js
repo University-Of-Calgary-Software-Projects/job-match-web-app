@@ -66,7 +66,6 @@ export default function SignUp() {
   const [role, setRole] = useState(null);
   const [errorLabel, setErrorLabel] = useState(null);
   const history = useHistory();
-  
 
   /**
    *
@@ -74,7 +73,7 @@ export default function SignUp() {
    * @returns {Promise<void>}
    */
   const handleSubmit = async (event) => {
-    console.log("handle submit");
+    console.log(role);
     event.preventDefault();
 
     /**
@@ -110,37 +109,33 @@ export default function SignUp() {
             businessName: data.get("businessName"),
             businessIndustry: data.get("businessIndustry"),
           };
-    if (
-      !(
-        role === "jobseeker" &&
+
+    const validateJobSeeker = Boolean(
+      formInput["role"] === "jobSeeker" &&
         formInput["firstName"] &&
         formInput["lastName"] &&
         formInput["email"] &&
         formInput["username"] &&
         formInput["password"] &&
-        formInput["role"] &&
         formInput["phoneNumber"] &&
         formInput["location"]
-      )
-    ) {
-      setErrorLabel("Please fill out all required fields before submitting the form.")
-      return;
-    } else if (
-      !(
-        role === "hiringManager" &&
+    );
+
+    const validateHiringManager = Boolean(
+      formInput["role"] === "hiringManager" &&
         formInput["firstName"] &&
         formInput["lastName"] &&
         formInput["email"] &&
         formInput["username"] &&
         formInput["password"] &&
-        formInput["role"] &&
         formInput["businessName"] &&
         formInput["businessIndustry"]
-      )
-    ) {
-      setErrorLabel("Please fill out all required fields before submitting the form.")
-      return;
-    }
+    );
+
+    if (!(validateHiringManager || validateJobSeeker))
+      return setErrorLabel(
+        "Please fill out all required fields before submitting the form."
+      );
 
     localStorage.setItem("role", formInput.role);
     const raw = JSON.stringify(formInput);
@@ -168,7 +163,9 @@ export default function SignUp() {
       localStorage.setItem("userID", result.userID);
       history.push("/login");
     } else {
-      setErrorLabel("Username or Email already exist use different username and/or email");
+      setErrorLabel(
+        "Username or Email already exist use different username and/or email"
+      );
     }
   };
 
@@ -191,7 +188,7 @@ export default function SignUp() {
   };
 
   const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setErrorLabel(null);
@@ -212,15 +209,19 @@ export default function SignUp() {
           {/* <Alert severity="error" sx={{ display: errorLabel ? "" : "none" }}>
             Username or Email already exist use different username and/or email
           </Alert> */}
-          <Snackbar open={errorLabel} autoHideDuration={6000} onClose={handleCloseAlert}>
-          <Alert
+          <Snackbar
+            open={errorLabel}
+            autoHideDuration={6000}
             onClose={handleCloseAlert}
-            severity="error"
-            sx={{ mb: 3, display: errorLabel ? "" : "none" }}
           >
-            {errorLabel}
-          </Alert>
-        </Snackbar>
+            <Alert
+              onClose={handleCloseAlert}
+              severity="error"
+              sx={{ mb: 3, display: errorLabel ? "" : "none" }}
+            >
+              {errorLabel}
+            </Alert>
+          </Snackbar>
           <Avatar
             sx={{
               m: 1,
@@ -410,7 +411,10 @@ export default function SignUp() {
                   display: role === "jobSeeker" ? "inline" : "none",
                 }}
               >
-                <TagsInput tags={skills} name={"skills"} />
+                <TagsInput tags={skills} name={"skills"} placeholder={"add your skills here"}/>
+                <FormHelperText>
+                  Type your skill, then press Enter to add your skill as a tag
+                </FormHelperText>
               </Grid>
             </Grid>
             <Button
