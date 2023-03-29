@@ -59,7 +59,7 @@ const TagsInput = (props) => {
 				<input
 					type="text"
 					onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)}
-					placeholder={tags.length === 0 ? "Add keywords here" : null}
+					placeholder={tags.length === 0 ? props.placeholder : null}
 					onBlur={() => handleSubmit(props.name, tags)}
 				/>
 			</div>
