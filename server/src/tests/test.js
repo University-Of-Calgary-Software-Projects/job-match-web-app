@@ -1,7 +1,7 @@
 const request = require('supertest');
 const Database = require("better-sqlite3");
 const db = new Database("jobmatch.db", { verbose: console.log });
-const app = require("../index")
+const app = require("../testRunner")
 const { getCurrentDate } = require("../utils/Date");
 
 
@@ -18,10 +18,10 @@ describe("GET /apply/:id/applications", () => {
     await db.exec(`
 
       INSERT INTO job_seeker (ID, FirstName, LastName, Email, Username, Password, Location ) 
-      VALUES ('1', 'John', 'Doe', 'fuck.com', 'asasasasa', 'aaaa', 'calgary');
+      VALUES ('1', 'John', 'Doe', 'rush.com', 'asasasasa', 'aaaa', 'calgary');
 
       INSERT INTO hiring_manager (ID, UserName, Password, Business_Name, Business_Industry, First_Name, Last_Name, Business_Dept) 
-      VALUES ('345','hello','..', 'abc', 'IT','fuck','you', 'bitch');
+      VALUES ('345','hello','..', 'abc', 'IT','hell','yaa', 'bro');
 
       INSERT INTO job_post (ID, JobName, Salary, Duration, WorkingHours, HID, Description, DatePosted, Industry ) 
       VALUES ('56', 'Developer', 100000, 12, 8, '345', '', '${date}','IT' );
@@ -69,7 +69,7 @@ describe("GET /job-posts/:jobID", () => {
       VALUES ('1', 'John', 'Doe', 'john@example.com', 'john_doe', 'password', 'New York', '123-456-7890');
 
       INSERT INTO hiring_manager (ID, UserName, Password, Business_Name, Business_Industry, First_Name, Last_Name, Business_Dept) 
-      VALUES ('345','hello','..', 'abc', 'IT','fuck','you', 'bitch');
+      VALUES ('345','hello','..', 'abc', 'IT','go','eat', 'something');
       
       INSERT INTO job_post (ID, JobName, Salary, Duration, WorkingHours, HID, Description, DatePosted, Industry ) 
       VALUES ('100', 'Software Developer', 80000, 12, 8, '345', 'Software development', '${date}', 'IT');
