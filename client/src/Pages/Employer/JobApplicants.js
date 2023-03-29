@@ -95,7 +95,6 @@ function JobApplicants() {
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
-    
   };
 
   useEffect(() => {
@@ -153,13 +152,15 @@ function JobApplicants() {
 
     if (response.status === 200) {
       const result = await response.json();
-      setOffer('Offer Sent: An email has been sent to the applicant with the offer details.')
+      setOffer(
+        "Offer Sent: An email has been sent to the applicant with the offer details."
+      );
     } else {
-      setOffer('Could not send offer, please try again at another time')
+      setOffer("Could not send offer, please try again at another time");
     }
   };
   const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOffer(null);
@@ -181,12 +182,12 @@ function JobApplicants() {
         body: raw,
         redirect: "follow",
       };
-  
+
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/apply/view-resume`,
         requestOptions
       );
-  
+
       if (response.status === 200) {
         const blob = await response.blob();
         setResume(URL.createObjectURL(blob));
@@ -199,7 +200,6 @@ function JobApplicants() {
       setLoading(false);
       setNoResume(true);
     }
-  
   };
 
   const handleCloseMModal = () => {
@@ -222,7 +222,11 @@ function JobApplicants() {
         alignItems={"center"}
         spacing={0}
       >
-        <Snackbar open={offer} autoHideDuration={6000} onClose={handleCloseAlert}>
+        <Snackbar
+          open={offer}
+          autoHideDuration={6000}
+          onClose={handleCloseAlert}
+        >
           <Alert
             onClose={handleCloseAlert}
             sx={{ mb: 3, display: offer ? "" : "none" }}
@@ -258,7 +262,7 @@ function JobApplicants() {
                       const value = row[column.accessor];
                       if (column.accessor === "sendOffer") {
                         return (
-                          <TableCell key={column.accessor} align="center"> 
+                          <TableCell key={column.accessor} align="center">
                             <IconButton
                               aria-label="delete"
                               size="small"
@@ -326,7 +330,13 @@ function JobApplicants() {
           },
         }}
       >
-        <CustomBox sx={{ p: 1.5, boxShadow: 19, overflowY: "scroll" }}>
+        <CustomBox
+          sx={{
+            p: 1.5,
+            boxShadow: 19,
+            overflowY: "scroll"
+          }}
+        >
           {noResume && (
             <Box
               display="flex"
@@ -354,12 +364,12 @@ function JobApplicants() {
             </Box>
           )}
           {resume && (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Document file={resume} onLoadSuccess={onDocumentLoadSuccess} loading={null}>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Document
+                file={resume}
+                onLoadSuccess={onDocumentLoadSuccess}
+                loading={null}
+              >
                 {Array.from(new Array(numPages), (el, index) => (
                   <Page
                     key={`page_${index + 1}`}

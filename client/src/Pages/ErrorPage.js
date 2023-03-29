@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 
@@ -11,6 +11,10 @@ import { useHistory } from "react-router-dom";
  */
 function ErrorPage() {
   const history = useHistory();
+
+  useEffect(() => {
+    document.title =  "Error: page not found"
+  }, []);
   
   return (
     <Stack

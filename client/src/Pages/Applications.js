@@ -1,6 +1,6 @@
-import React from 'react'
-import EmployeeApplications from './Employee/Applications'
-import ErrorPage from './ErrorPage'
+import React, { useEffect } from "react";
+import EmployeeApplications from "./Employee/Applications";
+import ErrorPage from "./ErrorPage";
 
 /**
  *
@@ -8,9 +8,18 @@ import ErrorPage from './ErrorPage'
  * @constructor
  */
 function Applications() {
-  return (
-    localStorage.getItem("role") === "jobSeeker" ? <EmployeeApplications />: <ErrorPage />
-  )
+  useEffect(() => {
+    document.title =
+      localStorage.getItem("role") === "jobSeeker"
+        ? "My Applications | JobMatch"
+        : "Error: page not found";
+  }, []);
+
+  return localStorage.getItem("role") === "jobSeeker" ? (
+    <EmployeeApplications />
+  ) : (
+    <ErrorPage />
+  );
 }
 
-export default Applications
+export default Applications;

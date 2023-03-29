@@ -1,7 +1,7 @@
-import React from 'react'
-import ErrorPage from './ErrorPage'
-import EmployeeJobSearch from './Employee/JobSearch'
-
+import React, { useEffect } from "react";
+import ErrorPage from "./ErrorPage";
+import EmployeeJobSearch from "./Employee/JobSearch";
+import EmployerJobPosts from "./Employer/JobPost";
 
 /**
  *
@@ -9,9 +9,18 @@ import EmployeeJobSearch from './Employee/JobSearch'
  * @constructor
  */
 function JobSearch() {
-  return (
-    localStorage.getItem("role") === "jobSeeker" ? <EmployeeJobSearch /> : <ErrorPage />
-  )
+  useEffect(() => {
+    document.title =
+      localStorage.getItem("role") === "jobSeeker"
+        ? "Search | JobMatch"
+        : "Job Posts | JobMatch";
+  }, []);
+
+  return localStorage.getItem("role") === "jobSeeker" ? (
+    <EmployeeJobSearch />
+  ) : (
+    <EmployerJobPosts />
+  );
 }
 
-export default JobSearch
+export default JobSearch;

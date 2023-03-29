@@ -67,6 +67,7 @@ export default function SignIn() {
 
 
   useEffect(() => {
+    document.title = "Login | JobMatch";
     const handleLogout = () => {
       localStorage.removeItem("role");
       localStorage.removeItem("userID");;

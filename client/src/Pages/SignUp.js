@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,6 +20,8 @@ import {
   Snackbar,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
+
+
 
 /**
  *
@@ -66,6 +68,10 @@ export default function SignUp() {
   const [role, setRole] = useState(null);
   const [errorLabel, setErrorLabel] = useState(null);
   const history = useHistory();
+
+  useEffect(() => {
+    document.title = "Register | JobMatch";
+  }, []);
 
   /**
    *

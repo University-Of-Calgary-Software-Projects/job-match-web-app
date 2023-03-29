@@ -1,7 +1,6 @@
-import React from 'react'
-import EmployerJobPosts from './Employer/JobPost'
-import EmployeeJobPosts from './Employee/JobPosts'
-
+import React, { useEffect } from "react";
+import EmployerJobPosts from "./Employer/JobPost";
+import EmployeeJobPosts from "./Employee/JobPosts";
 
 /**
  *
@@ -9,9 +8,18 @@ import EmployeeJobPosts from './Employee/JobPosts'
  * @constructor
  */
 function JobPosts() {
-  return (
-    localStorage.getItem("role") === "jobSeeker" ? <EmployeeJobPosts /> :  <EmployerJobPosts />
-  )
+  useEffect(() => {
+    document.title =
+      localStorage.getItem("role") === "jobSeeker"
+        ? "Jobs | JobMatch"
+        : "Home | JobMatch";
+  }, []);
+
+  return localStorage.getItem("role") === "jobSeeker" ? (
+    <EmployeeJobPosts />
+  ) : (
+    <EmployerJobPosts />
+  );
 }
 
-export default JobPosts
+export default JobPosts;

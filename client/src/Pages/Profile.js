@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import EmployeeProfile from './Employee/Profile'
 import EmployerProfile from './Employer/Profile'
 
@@ -9,6 +9,11 @@ import EmployerProfile from './Employer/Profile'
  * @constructor
  */
 function Profile() {
+  useEffect(() => {
+    document.title = "Profile | JobMatch";
+  }, []);
+
+
   return (
     localStorage.getItem("role") === "jobSeeker" ? <EmployeeProfile />: <EmployerProfile />
   )

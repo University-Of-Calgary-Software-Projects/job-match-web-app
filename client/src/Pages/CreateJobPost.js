@@ -1,6 +1,6 @@
-import React from 'react'
-import ErrorPage from './ErrorPage'
-import EmployerCreateJobPost from './Employer/CreateJobPost'
+import React, { useEffect } from "react";
+import ErrorPage from "./ErrorPage";
+import EmployerCreateJobPost from "./Employer/CreateJobPost";
 
 /**
  *
@@ -8,9 +8,18 @@ import EmployerCreateJobPost from './Employer/CreateJobPost'
  * @constructor
  */
 function CreateJobPost() {
-  return (
-    localStorage.getItem("role") === "jobSeeker" ? <ErrorPage />: <EmployerCreateJobPost />
-  )
+  useEffect(() => {
+    document.title =
+      localStorage.getItem("role") === "jobSeeker"
+        ? "Error: page not found"
+        : "Create | JobMatch";
+  }, []);
+
+  return localStorage.getItem("role") === "jobSeeker" ? (
+    <ErrorPage />
+  ) : (
+    <EmployerCreateJobPost />
+  );
 }
 
-export default CreateJobPost
+export default CreateJobPost;
