@@ -46,7 +46,7 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function Offers() {
+function Offers({addNavbarHeader}) {
   const [data, setData] = useState([]);
 
   const handleSelectChange = async (value, index) => {
@@ -81,10 +81,7 @@ function Offers() {
 
   useEffect(() => {
 
-    /**
-     *
-     * @returns {Promise<void>}
-     */
+    addNavbarHeader("Offers")
     const fetchData = async () => {
       const userID = localStorage.getItem('userID');
 

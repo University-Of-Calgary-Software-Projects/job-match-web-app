@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ErrorPage from "./ErrorPage";
 import EmployeeApply from "./Employee/Apply";
 
-function Apply() {
+function Apply(props) {
   useEffect(() => {
     document.title =
       localStorage.getItem("role") === "jobSeeker"
@@ -11,7 +11,7 @@ function Apply() {
   }, []);
 
   return localStorage.getItem("role") === "jobSeeker" ? (
-    <EmployeeApply />
+    <EmployeeApply addNavbarHeader={props.addNavbarHeader}/>
   ) : (
     <ErrorPage />
   );

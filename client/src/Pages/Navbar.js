@@ -11,9 +11,9 @@ import EmployeeNavbar from './Employee/Navbar';
  */
 function NavBar(props) {
   return localStorage.getItem("role") === "jobSeeker" ? (
-    <EmployeeNavbar>{props.children}</EmployeeNavbar>
+    <EmployeeNavbar navbarHeader={props.navbarHeader}>{props.children}</EmployeeNavbar>
   ) : (
-    <EmployerNavbar>{props.children}</EmployerNavbar>
+    <EmployerNavbar navbarHeader={props.navbarHeader}>{props.children}</EmployerNavbar>
   );
 }
 

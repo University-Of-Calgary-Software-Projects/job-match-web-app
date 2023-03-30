@@ -9,10 +9,11 @@ import { useHistory } from "react-router-dom";
  * @returns {JSX.Element}
  * @constructor
  */
-function ErrorPage() {
+function ErrorPage({addNavbarHeader}) {
   const history = useHistory();
 
   useEffect(() => {
+    addNavbarHeader("Error");
     document.title =  "Error: page not found"
   }, []);
   

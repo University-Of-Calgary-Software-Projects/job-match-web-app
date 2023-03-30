@@ -7,7 +7,7 @@ import EmployeeJobPosts from "./Employee/JobPosts";
  * @returns {JSX.Element}
  * @constructor
  */
-function JobPosts() {
+function JobPosts(props) {
   useEffect(() => {
     document.title =
       localStorage.getItem("role") === "jobSeeker"
@@ -16,9 +16,9 @@ function JobPosts() {
   }, []);
 
   return localStorage.getItem("role") === "jobSeeker" ? (
-    <EmployeeJobPosts />
+    <EmployeeJobPosts addNavbarHeader={props.addNavbarHeader}/>
   ) : (
-    <EmployerJobPosts />
+    <EmployerJobPosts addNavbarHeader={props.addNavbarHeader}/>
   );
 }
 

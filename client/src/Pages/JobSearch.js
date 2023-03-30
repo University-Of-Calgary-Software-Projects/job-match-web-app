@@ -8,8 +8,10 @@ import EmployerJobPosts from "./Employer/JobPost";
  * @returns {JSX.Element}
  * @constructor
  */
-function JobSearch() {
+function JobSearch(props) {
   useEffect(() => {
+    console.log(props);
+    
     document.title =
       localStorage.getItem("role") === "jobSeeker"
         ? "Search | JobMatch"
@@ -17,9 +19,9 @@ function JobSearch() {
   }, []);
 
   return localStorage.getItem("role") === "jobSeeker" ? (
-    <EmployeeJobSearch />
+    <EmployeeJobSearch addNavbarHeader={props.addNavbarHeader}/>
   ) : (
-    <EmployerJobPosts />
+    <EmployerJobPosts addNavbarHeader={props.addNavbarHeader}/>
   );
 }
 

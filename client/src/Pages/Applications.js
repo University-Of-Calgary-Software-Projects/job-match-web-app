@@ -7,7 +7,7 @@ import ErrorPage from "./ErrorPage";
  * @returns {JSX.Element}
  * @constructor
  */
-function Applications() {
+function Applications(props) {
   useEffect(() => {
     document.title =
       localStorage.getItem("role") === "jobSeeker"
@@ -16,9 +16,9 @@ function Applications() {
   }, []);
 
   return localStorage.getItem("role") === "jobSeeker" ? (
-    <EmployeeApplications />
+    <EmployeeApplications addNavbarHeader={props.addNavbarHeader}/>
   ) : (
-    <ErrorPage />
+    <ErrorPage addNavbarHeader={props.addNavbarHeader}/>
   );
 }
 

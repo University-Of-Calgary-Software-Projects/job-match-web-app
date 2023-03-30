@@ -39,24 +39,16 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function Profile() {
+function Profile({addNavbarHeader}) {
   const history = useHistory();
   const [data, setData] = useState({});
   const [name, setName] = useState("");
 
   useEffect(() => {
-
-    /**
-     *
-     * @returns {Promise<void>}
-     */
+    addNavbarHeader("Profile")
+    
     const fetchData = async () => {
       const userID = localStorage.getItem('userID');
-
-      /**
-       *
-       * @type {{redirect: string, method: string, url: string}}
-       */
       let requestOptions = {
         url: `${process.env.REACT_APP_API_URL}/profile/hiringManager/${userID}`,
         method: 'GET',

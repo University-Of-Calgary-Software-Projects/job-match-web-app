@@ -47,11 +47,12 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function JobPosts() {
+function JobPosts({addNavbarHeader}) {
   const [data, setData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
+    addNavbarHeader("My Job Posts");
 
 
     /**

@@ -7,7 +7,7 @@ import EmployerCreateJobPost from "./Employer/CreateJobPost";
  * @returns {JSX.Element}
  * @constructor
  */
-function CreateJobPost() {
+function CreateJobPost(props) {
   useEffect(() => {
     document.title =
       localStorage.getItem("role") === "jobSeeker"
@@ -18,7 +18,7 @@ function CreateJobPost() {
   return localStorage.getItem("role") === "jobSeeker" ? (
     <ErrorPage />
   ) : (
-    <EmployerCreateJobPost />
+    <EmployerCreateJobPost addNavbarHeader={props.addNavbarHeader}/>
   );
 }
 

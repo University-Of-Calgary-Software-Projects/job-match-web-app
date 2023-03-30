@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Tooltip, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import Slide from "@mui/material/Slide";
@@ -29,9 +29,12 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function JobSearch() {
+function JobSearch({addNavbarHeader}) {
   const [queryResults, setQueryResults] = useState([]);
   const history = useHistory();
+  useEffect(() => {
+    addNavbarHeader("Job Search");
+  }, [])
 
   const handleChange = (query) => {
     const apiUrl = `${process.env.REACT_APP_API_URL}/search`;

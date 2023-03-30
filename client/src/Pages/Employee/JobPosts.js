@@ -47,11 +47,12 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  * @constructor
  */
 
-function JobPosts() {
+function JobPosts({addNavbarHeader}) {
   const [data, setData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
+    addNavbarHeader("My Jobs")
     const fetchData = async () => {
       const userID = localStorage.getItem("userID");
 

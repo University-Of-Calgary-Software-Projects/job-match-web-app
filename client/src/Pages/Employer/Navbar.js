@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -125,7 +125,7 @@ const Drawer = styled(MuiDrawer, {
  * @constructor
  */
 export default function Navbar(props) {
-  const [toolbarHeader, setToolbarHeader] = useState("Home");
+  const [toolbarHeader, setToolbarHeader] = useState("");
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false);
   const history = useHistory();
 
@@ -138,6 +138,11 @@ export default function Navbar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    console.log(props);
+    setToolbarHeader(props.navbarHeader);
+  }, [props.navbarHeader]);
 
   /**
    *
@@ -264,7 +269,7 @@ export default function Navbar(props) {
                 }}
                 onClick={() => {
                   history.push(route.link);
-                  setToolbarHeader(route.title);
+                  //setToolbarHeader(route.title);
                 }}
               >
                 <ListItemButton

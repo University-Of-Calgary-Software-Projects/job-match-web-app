@@ -48,7 +48,7 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function Profile() {
+function Profile({addNavbarHeader}) {
   const history = useHistory();
   const [data, setData] = useState({});
   const [name, setName] = useState("");
@@ -88,6 +88,7 @@ function Profile() {
   };
 
   useEffect(() => {
+    addNavbarHeader("Profile")
     const fetchData = async () => {
       const userID = localStorage.getItem("userID");
 

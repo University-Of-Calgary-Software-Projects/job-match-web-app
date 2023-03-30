@@ -42,10 +42,11 @@ const HeaderTableCell = styled(TableCell)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function Applications() {
+function Applications({addNavbarHeader}) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    addNavbarHeader("My Applications")
     const fetchData = async () => {
       const userID = localStorage.getItem("userID");
 
