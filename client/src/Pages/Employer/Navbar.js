@@ -277,6 +277,10 @@ export default function Navbar(props) {
                   sx={{
                     minHeight: 48,
                     borderRadius: "10px",
+                    boxShadow:
+                      route.title === toolbarHeader
+                        ? "0px 2px 4px rgba(0, 0, 0, 0.4)"
+                        : null,
                     backgroundColor:
                       route.title === toolbarHeader
                         ? theme.palette.mode === "light"
@@ -296,7 +300,9 @@ export default function Navbar(props) {
                             ? "sideBarText.hoverLight"
                             : "sideBarText.hoverDark"
                           : null,
+                          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                     },
+                    transition: "box-shadow 0.3s",
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}

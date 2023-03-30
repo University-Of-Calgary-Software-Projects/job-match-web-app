@@ -18,10 +18,10 @@ import {
   Select,
   Alert,
   Snackbar,
+  Autocomplete,
+  Chip,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
-
-
 
 /**
  *
@@ -103,7 +103,7 @@ export default function SignUp() {
             role: data.get("role"),
             phoneNumber: data.get("phoneNumber"),
             location: data.get("location"),
-            skills: localStorage.getItem("skills"),
+            skills: skills
           }
         : {
             firstName: data.get("firstName"),
@@ -200,6 +200,10 @@ export default function SignUp() {
     setErrorLabel(null);
   };
 
+  const handleValueChange = async (event, newValue) => {
+    setSkills(newValue);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -212,9 +216,6 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          {/* <Alert severity="error" sx={{ display: errorLabel ? "" : "none" }}>
-            Username or Email already exist use different username and/or email
-          </Alert> */}
           <Snackbar
             open={errorLabel}
             autoHideDuration={6000}
@@ -417,7 +418,30 @@ export default function SignUp() {
                   display: role === "jobSeeker" ? "inline" : "none",
                 }}
               >
-                <TagsInput tags={skills} name={"skills"} placeholder={"add your skills here"}/>
+                <Autocomplete
+                  sx={{
+                    minWidth: "450px",
+                    maxWidth: "500px",
+                  }}
+                  multiple
+                  id="tags-filled"
+                  options={[]}
+                  freeSolo
+                  onChange={handleValueChange}
+                  value={skills}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        variant="outlined"
+                        label={option}
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder={skills.length > 0 ? "skills" : "add your skills here"} />
+                  )}
+                />
                 <FormHelperText>
                   Type your skill, then press Enter to add your skill as a tag
                 </FormHelperText>

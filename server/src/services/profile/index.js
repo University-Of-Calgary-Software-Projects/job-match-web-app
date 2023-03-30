@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const Database = require("better-sqlite3");
 const db = new Database("jobmatch.db", { verbose: console.log });
+const { uuid } = require("../../utils/GenerateID");
 
 /**
  * Handle get request, queries the database to get the profile details of the
@@ -12,30 +13,30 @@ const db = new Database("jobmatch.db", { verbose: console.log });
  * else returns a 400 response status
  */
 router.get("/:role/:id", async (req, res) => {
-	try {
-		const { role } = req.params;
-		const { id } = req.params;
-		let queryResult;
+  try {
+    const { role } = req.params;
+    const { id } = req.params;
+    let queryResult;
 
-		if (role === "jobSeeker") {
-			queryResult = queryJobSeeker(id);
-		} else if (role === "hiringManager") {
-			queryResult = queryHiringManager(id);
-		} else {
-			return res
-				.status(404)
-				.json({ error: "incorrect role was provided" });
-		}
-		if (queryResult.length === 0) {
-			return res
-				.status(400)
-				.json({ error: "User ID provided is not available" });
-		}
-		return res.status(200).json({ results: queryResult[0], skills: queryResult.skills });
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ error: "Server Error" });
-	}
+    if (role === "jobSeeker") {
+      queryResult = queryJobSeeker(id);
+    } else if (role === "hiringManager") {
+      queryResult = queryHiringManager(id);
+    } else {
+      return res.status(404).json({ error: "incorrect role was provided" });
+    }
+    if (queryResult.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "User ID provided is not available" });
+    }
+    return res
+      .status(200)
+      .json({ results: queryResult[0], skills: queryResult.skills });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server Error" });
+  }
 });
 
 /**
@@ -44,87 +45,86 @@ router.get("/:role/:id", async (req, res) => {
  * @returns {object} -returns result of sql query
  */
 function queryJobSeeker(id) {
-	let sql = null; // for sql statements
+  let sql = null; // for sql statements
 
-	//sql query
-	sql = `
+  //sql query
+  sql = `
     SELECT *
     FROM job_seeker
     WHERE ID=?
   `;
 
-	let stmt = db.prepare(sql);
-	let result1 = stmt.all(id);
+  let stmt = db.prepare(sql);
+  let result1 = stmt.all(id);
 
-	sql = `
+  sql = `
     SELECT S.skillName as label
     FROM skills AS S, has_skill as HS
     WHERE HS.JSID = ? AND HS.SID = S.ID
   `;
 
-	stmt = db.prepare(sql);
-	const result2 = stmt.all(id);
-	Object.assign(result1, {'skills': result2})
-	return result1;
+  stmt = db.prepare(sql);
+  const result2 = stmt.all(id);
+  Object.assign(result1, { skills: result2 });
+  return result1;
 }
 
 router.post("/update-skills", async (req, res) => {
-	try {
-		const { JSID, skillsArray } = req.body;
+  try {
+    console.log("here");
+    const { JSID, skillsArray } = req.body;
 
-		let sql1 = `
+    let sql1 = `
 			DELETE FROM has_skill WHERE JSID = ? 
 	  	`;
-		
-		let stmt1 = db.prepare(sql1);
-		stmt1.run(
-		   JSID
-		);
-		
-		skillsArray.map((skill) => {
-			skill = skill.charAt(0).toUpperCase() + skill.slice(1);
-			try {
-				sql = `
+
+    let stmt1 = db.prepare(sql1);
+    stmt1.run(JSID);
+
+    skillsArray.map((skill) => {
+      skill = skill.charAt(0).toUpperCase() + skill.slice(1);
+      try {
+        sql = `
 			  SELECT *
 			  FROM skills
 			  WHERE skillName=?
 			  `;
-				stmt = db.prepare(sql);
-				const result = stmt.all(skill);
-				if (result.length === 0) {
-					const skillID = uuid();
-					sql = `
+        stmt = db.prepare(sql);
+        const result = stmt.all(skill);
+        if (result.length === 0) {
+          const skillID = uuid();
+          sql = `
 				  INSERT INTO skills
 				  VALUES (?,?)
 				`;
-					stmt = db.prepare(sql);
-					const result = stmt.run(skillID, skill);
-					console.log(result);
-					sql = `
+          stmt = db.prepare(sql);
+          const result = stmt.run(skillID, skill);
+          console.log(result);
+          sql = `
 				INSERT INTO has_skill
 				VALUES (?,?)
 				`;
-					stmt = db.prepare(sql);
-					stmt.run(skillID, JSID);
-				} else {
-					const skillID = result[0].ID;
-					sql = `
+          stmt = db.prepare(sql);
+          stmt.run(skillID, JSID);
+        } else {
+          const skillID = result[0].ID;
+          sql = `
 				INSERT INTO has_skill
 				VALUES (?,?)
 				`;
-					stmt = db.prepare(sql);
-					stmt.run(skillID, JSID);
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		});
+          stmt = db.prepare(sql);
+          stmt.run(skillID, JSID);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
 
-		return res.status(200).json({ msg: "successfully updated skills" });
-	} catch (error) {
-		console.log(error);
-		return res.status(400).json({ error: "could not update skills" });
-	}
+    return res.status(200).json({ msg: "successfully updated skills" });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error: "could not update skills" });
+  }
 });
 
 /**
@@ -134,10 +134,10 @@ router.post("/update-skills", async (req, res) => {
  * @returns {object} - return result of sql query
  */
 function queryHiringManager(id) {
-	let sql; // for sql statements
+  let sql; // for sql statements
 
-	//sql query
-	sql = `
+  //sql query
+  sql = `
     SELECT 
     h.ID AS HID,  h.UserName, h.First_Name, h.LAST_NAME, 
     h.Business_Name, h.Business_Industry
@@ -145,9 +145,9 @@ function queryHiringManager(id) {
     WHERE h.ID=?
   `;
 
-	let stmt = db.prepare(sql);
-	const result = stmt.all(id);
-	return result;
+  let stmt = db.prepare(sql);
+  const result = stmt.all(id);
+  return result;
 }
 
 module.exports = { ProfileService: router };

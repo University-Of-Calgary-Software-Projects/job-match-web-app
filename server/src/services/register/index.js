@@ -47,7 +47,6 @@ router.post("/", async (req, res) => {
 		let ID;
 
 		if (role === "jobSeeker") {
-			let skillsArray = skills.split(",");
 
 			const jobSeekerInfo = {
 				firstName: firstName,
@@ -57,7 +56,7 @@ router.post("/", async (req, res) => {
 				password: password,
 				phoneNumber: phoneNumber,
 				location: location,
-				skills: skillsArray,
+				skills: skills,
 			};
 			ID = jobSeekerSignUp(jobSeekerInfo);
 		} else {
