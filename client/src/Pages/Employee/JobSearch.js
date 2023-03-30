@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Tooltip, Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import Slide from "@mui/material/Slide";
 import Divider from "@mui/material/Divider";
@@ -29,12 +29,12 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-function JobSearch({addNavbarHeader}) {
+function JobSearch({ addNavbarHeader }) {
   const [queryResults, setQueryResults] = useState([]);
   const history = useHistory();
   useEffect(() => {
     addNavbarHeader("Job Search");
-  }, [])
+  }, []);
 
   const handleChange = (query) => {
     const apiUrl = `${process.env.REACT_APP_API_URL}/search`;
@@ -124,31 +124,38 @@ function JobSearch({addNavbarHeader}) {
                 <Stack direction={"row"} justifyContent={"space-between"}>
                   <Stack direction={"column"}>
                     <Typography id={`modal-modal-title-${index}`} variant="h5">
-                      {row.JobName.title}
+                      {row.JobName}
                     </Typography>
-                    <Typography variant="p">{row.JobName}</Typography>
                     <Typography variant="p">{row.Industry}</Typography>
-                    <Typography variant="p">{row.DatePosted}</Typography>
+                    <Typography variant="subtitle2">
+                      {row.DatePosted}
+                    </Typography>
                   </Stack>
-                  <Tooltip title="apply" enterDelay={50} enterNextDelay={50}>
-                    <CustomIconButton
-                      sx={{
-                        transition: "0.3s",
-                        "&:hover": {
-                          boxShadow: 10,
-                        },
-                      }}
-                      onClick={() =>
-                        history.push({
-                          //pathname: `/apply/${row.ID}`,
-                          pathname: `/apply`,
-                          state: { detail: { id: row.ID } },
-                        })
-                      }
-                    >
-                      <PostAddIcon />
-                    </CustomIconButton>
-                  </Tooltip>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Tooltip title="apply" enterDelay={50} enterNextDelay={50}>
+                      <CustomIconButton
+                        sx={{
+                          transition: "0.3s",
+                          "&:hover": {
+                            boxShadow: 10,
+                          },
+                        }}
+                        onClick={() =>
+                          history.push({
+                            //pathname: `/apply/${row.ID}`,
+                            pathname: `/apply`,
+                            state: { detail: { id: row.ID } },
+                          })
+                        }
+                      >
+                        <PostAddIcon sx={{ fontSize: 32 }}/>
+                      </CustomIconButton>
+                    </Tooltip>
+                  </Box>
                 </Stack>
               </CustomPaper>
             </Slide>
