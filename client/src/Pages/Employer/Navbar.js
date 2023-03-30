@@ -18,7 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useHistory } from "react-router-dom";
 import { EmployerRoutes as routes } from "../routes";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeProvider } from "@emotion/react";
@@ -126,7 +126,9 @@ const Drawer = styled(MuiDrawer, {
  */
 export default function Navbar(props) {
   const [toolbarHeader, setToolbarHeader] = useState("");
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkmode") === "true" ? true : false
+  );
   const history = useHistory();
 
   const [open, setOpen] = useState(true);
@@ -186,7 +188,7 @@ export default function Navbar(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex", minWidth: "500px",  }} >
+      <Box sx={{ display: "flex", minWidth: "500px" }}>
         <CssBaseline />
         <AppBar
           position="fixed"
@@ -265,7 +267,6 @@ export default function Navbar(props) {
               <ListItem
                 sx={{
                   display: "block",
-                  
                 }}
                 onClick={() => {
                   history.push(route.link);
@@ -300,29 +301,36 @@ export default function Navbar(props) {
                     px: 2.5,
                   }}
                 >
-                  <Tooltip title={route.title} enterDelay={300} enterNextDelay={300}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color:
-                        route.title === toolbarHeader
-                          ? theme.palette.mode === "light"
-                            ? "sideBarIcons.selectedLight"
-                            : "sideBarIcons.selectedDark"
-                          : theme.palette.mode === "light"
-                          ? "sideBarIcons.light"
-                          : "sideBarIcons.dark",
-                    }}
+                  <Tooltip
+                    title={route.title}
+                    enterDelay={300}
+                    enterNextDelay={300}
                   >
-                    {route.icon}
-                  </ListItemIcon>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color:
+                          route.title === toolbarHeader
+                            ? theme.palette.mode === "light"
+                              ? "sideBarIcons.selectedLight"
+                              : "sideBarIcons.selectedDark"
+                            : theme.palette.mode === "light"
+                            ? "sideBarIcons.light"
+                            : "sideBarIcons.dark",
+                      }}
+                    >
+                      {route.icon}
+                    </ListItemIcon>
                   </Tooltip>
                   <ListItemText
                     primary={route.title}
-                    sx={{ opacity: open ? 1 : 0,  }}
-                    primaryTypographyProps={{fontFamily: "IBM Plex Sans", fontWeight: "650"}}
+                    sx={{ opacity: open ? 1 : 0 }}
+                    primaryTypographyProps={{
+                      fontFamily: "IBM Plex Sans",
+                      fontWeight: "650",
+                    }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -340,7 +348,7 @@ export default function Navbar(props) {
                 }}
                 onClick={() => {
                   setDarkMode(!darkMode);
-                  localStorage.setItem('darkmode', !darkMode);
+                  localStorage.setItem("darkmode", !darkMode);
                 }}
               >
                 <ListItemIcon
@@ -358,8 +366,11 @@ export default function Navbar(props) {
                 </ListItemIcon>
                 <ListItemText
                   primary={darkMode ? "Dark mode" : "Light mode"}
-                  sx={{ opacity: open ? 1 : 0,  }}
-                  primaryTypographyProps={{fontFamily: "IBM Plex Sans", fontWeight: "650"}}
+                  sx={{ opacity: open ? 1 : 0 }}
+                  primaryTypographyProps={{
+                    fontFamily: "IBM Plex Sans",
+                    fontWeight: "650",
+                  }}
                 />
               </ListItemButton>
             </ListItem>
@@ -373,7 +384,7 @@ export default function Navbar(props) {
                   borderRadius: "10px",
                 }}
                 onClick={() => {
-                  history.push('/login');
+                  history.push("/login");
                 }}
               >
                 <ListItemIcon
@@ -391,8 +402,11 @@ export default function Navbar(props) {
                 </ListItemIcon>
                 <ListItemText
                   primary="Sign Out"
-                  sx={{ opacity: open ? 1 : 0,  }}
-                  primaryTypographyProps={{fontFamily: "IBM Plex Sans", fontWeight: "650"}}
+                  sx={{ opacity: open ? 1 : 0 }}
+                  primaryTypographyProps={{
+                    fontFamily: "IBM Plex Sans",
+                    fontWeight: "650",
+                  }}
                 />
               </ListItemButton>
             </ListItem>
